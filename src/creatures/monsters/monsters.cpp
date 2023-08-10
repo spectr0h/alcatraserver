@@ -309,15 +309,10 @@ MonsterType* Monsters::getMonsterType(const std::string &name) {
 	return nullptr;
 }
 
-MonsterType* Monsters::getMonsterTypeByRaceId(uint16_t raceId, bool isBoss /* = false*/) {
-	MonsterType* bossType = g_ioBosstiary().getMonsterTypeByBossRaceId(raceId);
-	if (isBoss && bossType) {
-		return bossType;
-	}
-
-	auto monster_race_map = g_game().getBestiaryList();
-	auto it = monster_race_map.find(raceId);
-	if (it == monster_race_map.end()) {
+MonsterType* Monsters::getMonsterTypeByRaceId(uint16_t thisrace) {
+	phmap::btree_map<uint16_t, std::string> raceid_list = g_game().getBestiaryList();
+	auto it = raceid_list.find(thisrace);
+	if (it == raceid_list.end()) {
 		return nullptr;
 	}
 

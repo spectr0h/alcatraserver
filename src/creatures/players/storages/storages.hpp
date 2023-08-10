@@ -27,6 +27,8 @@ class Storages {
 		const phmap::btree_map<std::string, uint32_t> &getStorageMap() const;
 
 	private:
+		Storages() = default;
+
 		phmap::btree_map<std::string, uint32_t> m_storageMap;
 };
 

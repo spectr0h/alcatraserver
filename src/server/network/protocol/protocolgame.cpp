@@ -8049,7 +8049,7 @@ void ProtocolGame::parseSendBosstiary() {
 	NetworkMessage msg;
 	msg.addByte(0x73);
 
-	auto mtype_map = g_ioBosstiary().getBosstiaryMap();
+	phmap::btree_map<uint32_t, std::string> mtype_list = g_ioBosstiary().getBosstiaryMap();
 	auto bossesBuffer = msg.getBufferPosition();
 	uint16_t bossesCount = 0;
 	msg.skipBytes(2);
