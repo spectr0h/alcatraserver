@@ -27,8 +27,8 @@ function playersOnline.onSay(player, words, param)
         player:sendTextMessage(MESSAGE_ATTENTION, msg)
     end
 
-    player:popupFYI("~ Players Online ~\n\n" .. table.concat(listPlayers, "\n"))
-    return false
+	player:popupFYI("~ Players Online ~\n\n" .. listPlayers)
+	return true
 end
 
 playersOnline:groupType("normal")
