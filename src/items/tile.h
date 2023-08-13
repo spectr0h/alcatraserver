@@ -170,6 +170,7 @@ class Tile : public Cylinder {
 			this->flags &= ~flag;
 		}
 
+<<<<<<< HEAD
 		void setHazard(bool hazard) {
 			if (hazard) {
 				setFlag(TILESTATE_HAZARD);
@@ -182,6 +183,11 @@ class Tile : public Cylinder {
 		}
 
 		ZoneType_t getZone() const {
+=======
+		std::shared_ptr<Zone> getZone();
+
+		ZoneType_t getZoneType() const {
+>>>>>>> 140e3422 (improve: migrate hazard system to use zones)
 			if (hasFlag(TILESTATE_PROTECTIONZONE)) {
 				return ZONE_PROTECTION;
 			} else if (hasFlag(TILESTATE_NOPVPZONE)) {
