@@ -122,7 +122,14 @@ void Raids::checkRaids() {
 		for (auto it = raidList.begin(), end = raidList.end(); it != end; ++it) {
 			Raid* raid = *it;
 			if (now >= (getLastRaidEnd() + raid->getMargin())) {
+<<<<<<< HEAD
 				if (((MAX_RAND_RANGE * CHECK_RAIDS_INTERVAL) / raid->getInterval()) >= static_cast<uint32_t>(uniform_random(0, MAX_RAND_RANGE))) {
+=======
+				auto roll = static_cast<uint32_t>(uniform_random(0, MAX_RAND_RANGE));
+				auto required = static_cast<uint32_t>(MAX_RAND_RANGE * raid->getInterval()) / CHECK_RAIDS_INTERVAL;
+				auto shouldStart = required >= roll;
+				if (shouldStart) {
+>>>>>>> fa9b8f92 (improve: ZoneEvent helper)
 					setRunning(raid);
 					raid->startRaid();
 
