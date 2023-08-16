@@ -9,22 +9,38 @@
 #ifndef CANARY_CONTAINER_HPP
 #define CANARY_CONTAINER_HPP
 
+<<<<<<< HEAD
 #include <boost/di.hpp>
 #include "lib/logging/ILogger.hpp"
 #include "lib/logging/LogWithSpdLog.hpp"
+=======
+#include "lib/logging/logger.hpp"
+#include "lib/logging/log_with_spd_log.hpp"
+>>>>>>> 3398efe8 (Merge branch 'main' into luan/boos-cooldowns)
 
 namespace di = boost::di;
 
 class DI final {
+<<<<<<< HEAD
 	public:
 		inline static auto &container() {
 			static auto injector = di::make_injector(
 				di::bind<ILogger>().to<LogWithSpdLog>().in(di::singleton)
+=======
+	private:
+		inline static auto &container() {
+			static auto injector = di::make_injector(
+				di::bind<Logger>().to<LogWithSpdLog>().in(di::singleton)
+>>>>>>> 3398efe8 (Merge branch 'main' into luan/boos-cooldowns)
 			);
 
 			return injector;
 		}
 
+<<<<<<< HEAD
+=======
+	public:
+>>>>>>> 3398efe8 (Merge branch 'main' into luan/boos-cooldowns)
 		/**
 		 * Get returns you a reference of a instance that the DI contains.
 		 * It will always return the same instance, it's used for singletons shared instances.

@@ -82,9 +82,15 @@ TalkActionResult_t TalkActions::checkPlayerCanSayTalkAction(Player* player, Spea
 bool TalkAction::executeSay(Player* player, const std::string &words, const std::string &param, SpeakClasses type) const {
 	// onSay(player, words, param, type)
 	if (!getScriptInterface()->reserveScriptEnv()) {
+<<<<<<< HEAD
 		SPDLOG_ERROR("[TalkAction::executeSay - Player {} words {}] "
 					 "Call stack overflow. Too many lua script calls being nested. Script name {}",
 					 player->getName(), getWords(), getScriptInterface()->getLoadingScriptName());
+=======
+		g_logger().error("[TalkAction::executeSay - Player {} words {}] "
+						 "Call stack overflow. Too many lua script calls being nested. Script name {}",
+						 player->getName(), getWords(), getScriptInterface()->getLoadingScriptName());
+>>>>>>> 3398efe8 (Merge branch 'main' into luan/boos-cooldowns)
 		return false;
 	}
 

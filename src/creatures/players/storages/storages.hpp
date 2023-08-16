@@ -27,8 +27,11 @@ class Storages {
 		const phmap::btree_map<std::string, uint32_t> &getStorageMap() const;
 
 	private:
+<<<<<<< HEAD
 		Storages() = default;
 
+=======
+>>>>>>> 3398efe8 (Merge branch 'main' into luan/boos-cooldowns)
 		phmap::btree_map<std::string, uint32_t> m_storageMap;
 };
 

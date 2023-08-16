@@ -2015,6 +2015,7 @@ class Player final : public Creature, public Cylinder, public Bankable {
 
 		// Prey system
 		void initializePrey();
+		void removePreySlotById(PreySlot_t slotid);
 
 		void sendPreyData() const {
 			if (client) {

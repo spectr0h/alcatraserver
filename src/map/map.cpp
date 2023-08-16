@@ -66,11 +66,11 @@ bool Map::load(const std::string &identifier, const Position &pos, bool unload) 
 	try {
 		IOMap loader;
 		if (!loader.loadMap(this, identifier, pos, unload)) {
-			SPDLOG_ERROR("[Map::load] - {}", loader.getLastErrorString());
+			g_logger().error("[Map::load] - {}", loader.getLastErrorString());
 			return false;
 		}
 	} catch (const std::exception) {
-		SPDLOG_ERROR("[Map::load] - The map in folder {} is missing or corrupted", identifier);
+		g_logger().error("[Map::load] - The map in folder {} is missing or corrupted", identifier);
 		return false;
 	}
 	return true;
@@ -79,6 +79,7 @@ bool Map::load(const std::string &identifier, const Position &pos, bool unload) 
 bool Map::loadMap(const std::string &identifier, bool mainMap /*= false*/, bool loadHouses /*= false*/, bool loadMonsters /*= false*/, bool loadNpcs /*= false*/, const Position &pos /*= Position()*/, bool unload /*= false*/) {
 	// Only download map if is loading the main map and it is not already downloaded
 	if (mainMap && g_configManager().getBoolean(TOGGLE_DOWNLOAD_MAP) && !std::filesystem::exists(identifier)) {
+<<<<<<< HEAD
 		SPDLOG_INFO("Downloading " + g_configManager().getString(MAP_NAME) + ".otbm to world folder");
 		uint64_t startDownloadTime = OTSYS_TIME();
 		if (!downloadMap(identifier)) {
@@ -86,6 +87,24 @@ bool Map::loadMap(const std::string &identifier, bool mainMap /*= false*/, bool 
 		}
 
 		SPDLOG_INFO("Download completed in {} seconds", (OTSYS_TIME() - startDownloadTime) / (1000.));
+=======
+		const auto mapDownloadUrl = g_configManager().getString(MAP_DOWNLOAD_URL);
+		if (mapDownloadUrl.empty()) {
+			g_logger().warn("Map download URL in config.lua is empty, download disabled");
+		}
+
+		if (CURL* curl = curl_easy_init(); curl && !mapDownloadUrl.empty()) {
+			g_logger().info("Downloading " + g_configManager().getString(MAP_NAME) + ".otbm to world folder");
+			FILE* otbm = fopen(identifier.c_str(), "wb");
+			curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+			curl_easy_setopt(curl, CURLOPT_URL, mapDownloadUrl.c_str());
+			curl_easy_setopt(curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+			curl_easy_setopt(curl, CURLOPT_WRITEDATA, otbm);
+			curl_easy_perform(curl);
+			curl_easy_cleanup(curl);
+			fclose(otbm);
+		}
+>>>>>>> 3398efe8 (Merge branch 'main' into luan/boos-cooldowns)
 	}
 
 	// Load the map
@@ -101,13 +120,13 @@ bool Map::loadMap(const std::string &identifier, bool mainMap /*= false*/, bool 
 
 	if (loadMonsters) {
 		if (!IOMap::loadMonsters(this)) {
-			SPDLOG_WARN("Failed to load spawn data");
+			g_logger().warn("Failed to load spawn data");
 		}
 	}
 
 	if (loadHouses) {
 		if (!IOMap::loadHouses(this)) {
-			SPDLOG_WARN("Failed to load house data");
+			g_logger().warn("Failed to load house data");
 		}
 
 		/**
@@ -123,7 +142,7 @@ bool Map::loadMap(const std::string &identifier, bool mainMap /*= false*/, bool 
 
 	if (loadNpcs) {
 		if (!IOMap::loadNpcs(this)) {
-			SPDLOG_WARN("Failed to load npc spawn data");
+			g_logger().warn("Failed to load npc spawn data");
 		}
 	}
 
@@ -144,19 +163,19 @@ bool Map::loadMapCustom(const std::string &mapName, bool loadHouses, bool loadMo
 
 	if (loadMonsters) {
 		if (!IOMap::loadMonstersCustom(this, mapName, customMapIndex)) {
-			SPDLOG_WARN("Failed to load monster custom data");
+			g_logger().warn("Failed to load monster custom data");
 		}
 	}
 
 	if (loadHouses) {
 		if (!IOMap::loadHousesCustom(this, mapName, customMapIndex)) {
-			SPDLOG_WARN("Failed to load house custom data");
+			g_logger().warn("Failed to load house custom data");
 		}
 	}
 
 	if (loadNpcs) {
 		if (!IOMap::loadNpcsCustom(this, mapName, customMapIndex)) {
-			SPDLOG_WARN("Failed to load npc custom spawn data");
+			g_logger().warn("Failed to load npc custom spawn data");
 		}
 	}
 
@@ -204,7 +223,7 @@ Tile* Map::getTile(uint16_t x, uint16_t y, uint8_t z) const {
 
 void Map::setTile(uint16_t x, uint16_t y, uint8_t z, Tile* newTile) {
 	if (z >= MAP_MAX_LAYERS) {
-		SPDLOG_ERROR("Attempt to set tile on invalid coordinate: {}", Position(x, y, z).toString());
+		g_logger().error("Attempt to set tile on invalid coordinate: {}", Position(x, y, z).toString());
 		return;
 	}
 
@@ -1268,6 +1287,6 @@ uint32_t Map::clean() const {
 		g_game().setGameState(GAME_STATE_NORMAL);
 	}
 
-	SPDLOG_INFO("CLEAN: Removed {} item{} from {} tile{} in {} seconds", count, (count != 1 ? "s" : ""), tiles, (tiles != 1 ? "s" : ""), (OTSYS_TIME() - start) / (1000.));
+	g_logger().info("CLEAN: Removed {} item{} from {} tile{} in {} seconds", count, (count != 1 ? "s" : ""), tiles, (tiles != 1 ? "s" : ""), (OTSYS_TIME() - start) / (1000.));
 	return count;
 }

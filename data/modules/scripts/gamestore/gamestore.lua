@@ -51,6 +51,13 @@ end
 -- 	state = GameStore.States.STATE_NONE,
 -- }
 
+-- GameStore.SearchCategory = {
+-- 	icons = {},
+-- 	name = "Search Results",
+-- 	rookgaard = true,
+-- 	state = GameStore.States.STATE_NONE,
+-- }
+
 GameStore.Categories = {
    -- Consumables
    {

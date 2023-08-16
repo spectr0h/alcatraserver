@@ -124,6 +124,8 @@
 	#include <wininet.h>
 #endif
 
+#include <boost/di.hpp>
+
 // -------------------------
 // GIT Metadata Includes
 // -------------------------
@@ -139,7 +141,17 @@
 #include <string>
 #include <iostream>
 
-bool isDevMode();
+/**
+ * Static custom libraries that can be pre-compiled like DI and messaging
+ */
+#include "lib/messaging/message.hpp"
+#include "lib/messaging/command.hpp"
+#include "lib/messaging/event.hpp"
+
+#include <eventpp/utilities/scopedremover.h>
+#include <eventpp/eventdispatcher.h>
+
+#include "lib/di/container.hpp"
 
 /**
  * Static custom libraries that can be pre-compiled like DI and messaging

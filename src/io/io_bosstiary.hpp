@@ -69,9 +69,12 @@ class IOBosstiary {
 		std::vector<uint16_t> getBosstiaryCooldownRaceId(const Player* player) const;
 
 	private:
+<<<<<<< HEAD
 		IOBosstiary() = default;
 		~IOBosstiary() = default;
 
+=======
+>>>>>>> 3398efe8 (Merge branch 'main' into luan/boos-cooldowns)
 		phmap::btree_map<uint16_t, std::string> bosstiaryMap;
 		std::string boostedBoss;
 		uint16_t boostedBossId = 0;

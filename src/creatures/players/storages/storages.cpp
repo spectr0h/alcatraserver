@@ -19,9 +19,15 @@ bool Storages::loadFromXML() {
 	pugi::xml_parse_result result = doc.load_file(folder.c_str());
 
 	if (!result) {
+<<<<<<< HEAD
 		spdlog::error("[{}] parsed with errors", folder);
 		spdlog::warn("Error description: {}", result.description());
 		spdlog::warn("Error offset: {}", result.offset);
+=======
+		g_logger().error("[{}] parsed with errors", folder);
+		g_logger().warn("Error description: {}", result.description());
+		g_logger().warn("Error offset: {}", result.offset);
+>>>>>>> 3398efe8 (Merge branch 'main' into luan/boos-cooldowns)
 		return false;
 	}
 
@@ -33,7 +39,11 @@ bool Storages::loadFromXML() {
 
 		for (const auto &existingRange : ranges) {
 			if ((start >= existingRange.first && start <= existingRange.second) || (end >= existingRange.first && end <= existingRange.second)) {
+<<<<<<< HEAD
 				spdlog::warn("[{}] Storage range from {} to {} conflicts with a previously defined range", __func__, start, end);
+=======
+				g_logger().warn("[{}] Storage range from {} to {} conflicts with a previously defined range", __func__, start, end);
+>>>>>>> 3398efe8 (Merge branch 'main' into luan/boos-cooldowns)
 				continue;
 			}
 		}
@@ -46,7 +56,11 @@ bool Storages::loadFromXML() {
 
 			for (char c : name) {
 				if (std::isupper(c)) {
+<<<<<<< HEAD
 					spdlog::warn("[{}] Storage from storages.xml with name: {}, contains uppercase letters. Please use dot notation pattern", __func__, name);
+=======
+					g_logger().warn("[{}] Storage from storages.xml with name: {}, contains uppercase letters. Please use dot notation pattern", __func__, name);
+>>>>>>> 3398efe8 (Merge branch 'main' into luan/boos-cooldowns)
 					break;
 				}
 			}
@@ -55,7 +69,11 @@ bool Storages::loadFromXML() {
 			key += start;
 
 			if (key > end) {
+<<<<<<< HEAD
 				spdlog::error("[{}] Storage from storages.xml with name: {}, has key outside of its range", __func__, name);
+=======
+				g_logger().error("[{}] Storage from storages.xml with name: {}, has key outside of its range", __func__, name);
+>>>>>>> 3398efe8 (Merge branch 'main' into luan/boos-cooldowns)
 				continue;
 			}
 
