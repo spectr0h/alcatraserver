@@ -8103,7 +8103,11 @@ void ProtocolGame::parseSendBosstiarySlots() {
 	std::string boostedBossName = g_ioBosstiary().getBoostedBossName();
 	const MonsterType* mTypeBoosted = g_monsters().getMonsterType(boostedBossName);
 	auto boostedBossRace = mTypeBoosted ? mTypeBoosted->info.bosstiaryRace : BosstiaryRarity_t::BOSS_INVALID;
+<<<<<<< HEAD
 	auto isValidBoostedBoss = boostedBossRace >= BosstiaryRarity_t::RARITY_BANE && boostedBossRace <= BosstiaryRarity_t::RARITY_NEMESIS;
+=======
+	auto isValidBoostedBoss = boostedBossId == 0 || boostedBossRace >= BosstiaryRarity_t::RARITY_BANE && boostedBossRace <= BosstiaryRarity_t::RARITY_NEMESIS;
+>>>>>>> 4855501f (Merge branch 'main' into lucas/introduce-thread-pool)
 	if (!isValidBoostedBoss) {
 		g_logger().error("[{}] The boosted boss '{}' has an invalid race", __FUNCTION__, boostedBossName);
 		return;
@@ -8111,7 +8115,11 @@ void ProtocolGame::parseSendBosstiarySlots() {
 
 	const MonsterType* mTypeSlotOne = g_ioBosstiary().getMonsterTypeByBossRaceId((uint16_t)bossIdSlotOne);
 	auto bossRaceSlotOne = mTypeSlotOne ? mTypeSlotOne->info.bosstiaryRace : BosstiaryRarity_t::BOSS_INVALID;
+<<<<<<< HEAD
 	auto isValidBossSlotOne = bossRaceSlotOne >= BosstiaryRarity_t::RARITY_BANE && bossRaceSlotOne <= BosstiaryRarity_t::RARITY_NEMESIS;
+=======
+	auto isValidBossSlotOne = bossIdSlotOne == 0 || bossRaceSlotOne >= BosstiaryRarity_t::RARITY_BANE && bossRaceSlotOne <= BosstiaryRarity_t::RARITY_NEMESIS;
+>>>>>>> 4855501f (Merge branch 'main' into lucas/introduce-thread-pool)
 	if (!isValidBossSlotOne) {
 		g_logger().error("[{}] boss slot1 with race id '{}' has an invalid race", __FUNCTION__, bossIdSlotOne);
 		return;
@@ -8119,7 +8127,11 @@ void ProtocolGame::parseSendBosstiarySlots() {
 
 	const MonsterType* mTypeSlotTwo = g_ioBosstiary().getMonsterTypeByBossRaceId((uint16_t)bossIdSlotTwo);
 	auto bossRaceSlotTwo = mTypeSlotTwo ? mTypeSlotTwo->info.bosstiaryRace : BosstiaryRarity_t::BOSS_INVALID;
+<<<<<<< HEAD
 	auto isValidBossSlotTwo = bossRaceSlotTwo >= BosstiaryRarity_t::RARITY_BANE && bossRaceSlotTwo <= BosstiaryRarity_t::RARITY_NEMESIS;
+=======
+	auto isValidBossSlotTwo = bossIdSlotTwo == 0 || bossRaceSlotTwo >= BosstiaryRarity_t::RARITY_BANE && bossRaceSlotTwo <= BosstiaryRarity_t::RARITY_NEMESIS;
+>>>>>>> 4855501f (Merge branch 'main' into lucas/introduce-thread-pool)
 	if (!isValidBossSlotTwo) {
 		g_logger().error("[{}] boss slot1 with race id '{}' has an invalid race", __FUNCTION__, bossIdSlotTwo);
 		return;
@@ -8158,10 +8170,14 @@ void ProtocolGame::parseSendBosstiarySlots() {
 		uint8_t isSlotOneInactive = bossIdSlotOne == boostedBossId ? 1 : 0;
 		// Bytes Slot One
 <<<<<<< HEAD
+<<<<<<< HEAD
 		sendBosstiarySlotsBytes(msg, bossRaceSlotOne, bossKillCount, bonusBossSlotOne, 0, isSlotOneInactive, removePrice);
 =======
 		sendBosstiarySlotsBytes(msg, static_cast<uint8_t>(bossRaceSlotOne), bossKillCount, bonusBossSlotOne, 0, isSlotOneInactive, removePrice);
 >>>>>>> 3398efe8 (Merge branch 'main' into luan/boos-cooldowns)
+=======
+		sendBosstiarySlotsBytes(msg, static_cast<uint8_t>(bossRaceSlotOne), bossKillCount, bonusBossSlotOne, 0, isSlotOneInactive, removePrice);
+>>>>>>> 4855501f (Merge branch 'main' into lucas/introduce-thread-pool)
 		bossesUnlockedSize--;
 	}
 
@@ -8177,10 +8193,14 @@ void ProtocolGame::parseSendBosstiarySlots() {
 		uint8_t isSlotTwoInactive = bossIdSlotTwo == boostedBossId ? 1 : 0;
 		// Bytes Slot Two
 <<<<<<< HEAD
+<<<<<<< HEAD
 		sendBosstiarySlotsBytes(msg, bossRaceSlotTwo, bossKillCount, bonusBossSlotTwo, 0, isSlotTwoInactive, removePrice);
 =======
 		sendBosstiarySlotsBytes(msg, static_cast<uint8_t>(bossRaceSlotTwo), bossKillCount, bonusBossSlotTwo, 0, isSlotTwoInactive, removePrice);
 >>>>>>> 3398efe8 (Merge branch 'main' into luan/boos-cooldowns)
+=======
+		sendBosstiarySlotsBytes(msg, static_cast<uint8_t>(bossRaceSlotTwo), bossKillCount, bonusBossSlotTwo, 0, isSlotTwoInactive, removePrice);
+>>>>>>> 4855501f (Merge branch 'main' into lucas/introduce-thread-pool)
 		bossesUnlockedSize--;
 	}
 
@@ -8193,21 +8213,28 @@ void ProtocolGame::parseSendBosstiarySlots() {
 		auto bosstiaryMultiplier = static_cast<uint8_t>(g_configManager().getNumber(BOSSTIARY_KILL_MULTIPLIER));
 		auto boostedKillBonus = static_cast<uint8_t>(g_configManager().getNumber(BOOSTED_BOSS_KILL_BONUS));
 <<<<<<< HEAD
+<<<<<<< HEAD
 		sendBosstiarySlotsBytes(msg, boostedBossRace, boostedBossKillCount, boostedLootBonus, bosstiaryMultiplier + boostedKillBonus, 0, 0);
 =======
 		sendBosstiarySlotsBytes(msg, static_cast<uint8_t>(boostedBossRace), boostedBossKillCount, boostedLootBonus, bosstiaryMultiplier + boostedKillBonus, 0, 0);
 >>>>>>> 3398efe8 (Merge branch 'main' into luan/boos-cooldowns)
+=======
+		sendBosstiarySlotsBytes(msg, static_cast<uint8_t>(boostedBossRace), boostedBossKillCount, boostedLootBonus, bosstiaryMultiplier + boostedKillBonus, 0, 0);
+>>>>>>> 4855501f (Merge branch 'main' into lucas/introduce-thread-pool)
 	}
 
 	msg.addByte(bossesUnlockedSize != 0 ? 1 : 0);
 	if (bossesUnlockedSize != 0) {
-		msg.add<uint16_t>(bossesUnlockedSize);
+		auto unlockCountBuffer = msg.getBufferPosition();
+		uint16_t bossesCount = 0;
+		msg.skipBytes(2);
 		for (const auto &bossId : bossesUnlockedList) {
 			if (bossId == bossIdSlotOne || bossId == bossIdSlotTwo)
 				continue;
 
 			const MonsterType* mType = g_ioBosstiary().getMonsterTypeByBossRaceId(bossId);
 			if (!mType) {
+				g_logger().error("[{}] monster {} not found", __FUNCTION__, bossId);
 				continue;
 			}
 
@@ -8217,9 +8244,23 @@ void ProtocolGame::parseSendBosstiarySlots() {
 				continue;
 			}
 
+<<<<<<< HEAD
+			auto bossRace = mType->info.bosstiaryRace;
+			if (bossRace < BosstiaryRarity_t::RARITY_BANE || bossRace > BosstiaryRarity_t::RARITY_NEMESIS) {
+				g_logger().error("[{}] monster {} have wrong boss race {}", __FUNCTION__, mType->name, fmt::underlying(bossRace));
+				continue;
+			}
+
 			msg.add<uint32_t>(bossId);
 			msg.addByte(static_cast<uint8_t>(bossRace));
+=======
+			msg.add<uint32_t>(bossId);
+			msg.addByte(static_cast<uint8_t>(bossRace));
+			bossesCount++;
+>>>>>>> 4855501f (Merge branch 'main' into lucas/introduce-thread-pool)
 		}
+		msg.setBufferPosition(unlockCountBuffer);
+		msg.add<uint16_t>(bossesCount);
 	}
 
 	writeToOutputBuffer(msg);
