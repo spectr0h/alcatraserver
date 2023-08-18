@@ -325,7 +325,11 @@ bool AnnounceEvent::configureRaidEvent(const pugi::xml_node &eventNode) {
 
 bool AnnounceEvent::executeEvent() {
 	g_game().broadcastMessage(message, messageType);
+<<<<<<< HEAD
 	WebHook::sendMessage("Incoming raid!", message, WEBHOOK_COLOR_RAID);
+=======
+	g_webhook().sendMessage("Incoming raid!", message, WEBHOOK_COLOR_RAID);
+>>>>>>> e5583095 (improve: run webhook within the thread pool (#1384))
 	return true;
 }
 

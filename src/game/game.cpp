@@ -7358,7 +7358,11 @@ void Game::dieSafely(std::string errorMsg /* = "" */) {
 }
 
 void Game::shutdown() {
+<<<<<<< HEAD
 	WebHook::sendMessage("Server is shutting down", "Shutting down...", WEBHOOK_COLOR_OFFLINE);
+=======
+	g_webhook().sendMessage("Server is shutting down", "Shutting down...", WEBHOOK_COLOR_OFFLINE);
+>>>>>>> e5583095 (improve: run webhook within the thread pool (#1384))
 
 <<<<<<< HEAD
 	SPDLOG_INFO("Shutting down...");
