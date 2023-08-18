@@ -960,3 +960,24 @@ int CreatureFunctions::luaCreatureGetZone(lua_State* L) {
 	}
 	return 1;
 }
+<<<<<<< HEAD
+=======
+
+int CreatureFunctions::luaCreatureGetZones(lua_State* L) {
+	// creature:getZones()
+	Creature* creature = getUserdata<Creature>(L, 1);
+	if (creature == nullptr) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	int index = 0;
+	for (auto zone : creature->getZones()) {
+		index++;
+		pushUserdata<Zone>(L, zone);
+		setMetatable(L, -1, "Zone");
+		lua_rawseti(L, -2, index);
+	}
+	return 1;
+}
+>>>>>>> e5f44434 (feat: allow multiple zones per coordinate)

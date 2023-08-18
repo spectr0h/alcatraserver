@@ -346,6 +346,13 @@ void Tile::onAddTileItem(Item* item) {
 
 	setTileFlags(item);
 
+<<<<<<< HEAD
+=======
+	for (const auto zone : getZones()) {
+		zone->itemAdded(item);
+	}
+
+>>>>>>> e5f44434 (feat: allow multiple zones per coordinate)
 	const Position &cylinderMapPos = getPosition();
 
 	SpectatorHashSet spectators;
@@ -416,6 +423,13 @@ void Tile::onRemoveTileItem(const SpectatorHashSet &spectators, const std::vecto
 		}
 	}
 
+<<<<<<< HEAD
+=======
+	for (const auto zone : getZones()) {
+		zone->itemRemoved(item);
+	}
+
+>>>>>>> e5f44434 (feat: allow multiple zones per coordinate)
 	resetTileFlags(item);
 
 	const Position &cylinderMapPos = getPosition();
@@ -1656,3 +1670,10 @@ Item* Tile::getDoorItem() const {
 
 	return nullptr;
 }
+<<<<<<< HEAD
+=======
+
+const phmap::btree_set<std::shared_ptr<Zone>> Tile::getZones() {
+	return Zone::getZones(getPosition());
+}
+>>>>>>> e5f44434 (feat: allow multiple zones per coordinate)

@@ -236,13 +236,24 @@ class Creature : virtual public Thing {
 			return defaultOutfit;
 		}
 		bool isInvisible() const;
+<<<<<<< HEAD
 		ZoneType_t getZone() const {
 			if (getTile()) {
 				return tile->getZone();
+=======
+		ZoneType_t getZoneType() const {
+			if (getTile()) {
+				return tile->getZoneType();
+>>>>>>> e5f44434 (feat: allow multiple zones per coordinate)
 			}
 
 			return ZONE_NORMAL;
 		}
+<<<<<<< HEAD
+=======
+
+		const phmap::btree_set<std::shared_ptr<Zone>> getZones();
+>>>>>>> e5f44434 (feat: allow multiple zones per coordinate)
 
 		// walk functions
 		void startAutoWalk(const std::forward_list<Direction> &listDir, bool ignoreConditions = false);

@@ -79,7 +79,12 @@ class CreatureFunctions final : LuaScriptInterface {
 			registerMethod(L, "Creature", "getDescription", CreatureFunctions::luaCreatureGetDescription);
 			registerMethod(L, "Creature", "getPathTo", CreatureFunctions::luaCreatureGetPathTo);
 			registerMethod(L, "Creature", "move", CreatureFunctions::luaCreatureMove);
+<<<<<<< HEAD
 			registerMethod(L, "Creature", "getZone", CreatureFunctions::luaCreatureGetZone);
+=======
+			registerMethod(L, "Creature", "getZoneType", CreatureFunctions::luaCreatureGetZoneType);
+			registerMethod(L, "Creature", "getZones", CreatureFunctions::luaCreatureGetZones);
+>>>>>>> e5f44434 (feat: allow multiple zones per coordinate)
 
 			CombatFunctions::init(L);
 			MonsterFunctions::init(L);
@@ -171,7 +176,13 @@ class CreatureFunctions final : LuaScriptInterface {
 		static int luaCreatureGetPathTo(lua_State* L);
 		static int luaCreatureMove(lua_State* L);
 
+<<<<<<< HEAD
 		static int luaCreatureGetZone(lua_State* L);
+=======
+		static int luaCreatureGetZoneType(lua_State* L);
+
+		static int luaCreatureGetZones(lua_State* L);
+>>>>>>> e5f44434 (feat: allow multiple zones per coordinate)
 };
 
 #endif // SRC_LUA_FUNCTIONS_CREATURES_CREATURE_FUNCTIONS_HPP_

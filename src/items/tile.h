@@ -171,6 +171,7 @@ class Tile : public Cylinder {
 		}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		void setHazard(bool hazard) {
 			if (hazard) {
 				setFlag(TILESTATE_HAZARD);
@@ -185,6 +186,9 @@ class Tile : public Cylinder {
 		ZoneType_t getZone() const {
 =======
 		std::shared_ptr<Zone> getZone();
+=======
+		const phmap::btree_set<std::shared_ptr<Zone>> getZones();
+>>>>>>> e5f44434 (feat: allow multiple zones per coordinate)
 
 		ZoneType_t getZoneType() const {
 >>>>>>> 140e3422 (improve: migrate hazard system to use zones)

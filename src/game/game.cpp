@@ -855,6 +855,15 @@ bool Game::internalPlaceCreature(Creature* creature, const Position &pos, bool e
 		return false;
 	}
 
+<<<<<<< HEAD
+=======
+	auto fromZones = creature->getZones();
+	auto toZones = Zone::getZones(pos);
+	if (auto ret = onCreatureZoneChange(creature, fromZones, toZones); ret != RETURNVALUE_NOERROR) {
+		return false;
+	}
+
+>>>>>>> e5f44434 (feat: allow multiple zones per coordinate)
 	if (!map.placeCreature(pos, creature, extendedPos, forced)) {
 		return false;
 	}
@@ -935,6 +944,12 @@ bool Game::removeCreature(Creature* creature, bool isLogout /* = true*/) {
 	}
 
 	creature->getParent()->postRemoveNotification(creature, nullptr, 0);
+<<<<<<< HEAD
+=======
+	for (const auto zone : creature->getZones()) {
+		zone->creatureRemoved(creature);
+	}
+>>>>>>> e5f44434 (feat: allow multiple zones per coordinate)
 
 	creature->removeList();
 	creature->setRemoved();
@@ -1287,6 +1302,15 @@ ReturnValue Game::internalMoveCreature(Creature &creature, Tile &toTile, uint32_
 		}
 	}
 
+<<<<<<< HEAD
+=======
+	auto fromZones = creature.getZones();
+	auto toZones = toTile.getZones();
+	if (auto ret = onCreatureZoneChange(&creature, fromZones, toZones); ret != RETURNVALUE_NOERROR) {
+		return ret;
+	}
+
+>>>>>>> e5f44434 (feat: allow multiple zones per coordinate)
 	map.moveCreature(creature, toTile);
 	if (creature.getParent() != &toTile) {
 		return RETURNVALUE_NOERROR;
@@ -2397,6 +2421,15 @@ ReturnValue Game::internalTeleport(Thing* thing, const Position &newPos, bool pu
 	}
 
 	if (Creature* creature = thing->getCreature()) {
+<<<<<<< HEAD
+=======
+		auto fromZones = creature->getZones();
+		auto toZones = toTile->getZones();
+		if (auto ret = onCreatureZoneChange(creature, fromZones, toZones); ret != RETURNVALUE_NOERROR) {
+			return ret;
+		}
+
+>>>>>>> e5f44434 (feat: allow multiple zones per coordinate)
 		ReturnValue ret = toTile->queryAdd(0, *creature, 1, FLAG_NOLIMIT);
 		if (ret != RETURNVALUE_NOERROR) {
 			return ret;
@@ -9817,3 +9850,80 @@ std::unique_ptr<IOWheel> &Game::getIOWheel() {
 const std::unique_ptr<IOWheel> &Game::getIOWheel() const {
 	return m_IOWheel;
 }
+<<<<<<< HEAD
+=======
+
+<<<<<<< HEAD
+ReturnValue Game::onCreatureZoneChange(Creature* creature, std::shared_ptr<Zone> &fromZone, std::shared_ptr<Zone> &toZone) {
+	if (fromZone == toZone) {
+		return RETURNVALUE_NOERROR;
+||||||| parent of ea3437230 (feat: allow multiple zones per coordinate)
+ReturnValue Game::onCreatureZoneChange(Creature* creature, std::shared_ptr<Zone> &fromZone, std::shared_ptr<Zone> &toZone) {
+	if (fromZone == toZone) {
+		// creatureAdded is idempotent, so we can just call it. This is useful for
+		// when a creature is added to a zone since the from is going to be the same
+		// as the to.
+		if (toZone) {
+			toZone->creatureAdded(creature);
+		}
+		return RETURNVALUE_NOERROR;
+=======
+template <typename T>
+phmap::btree_set<T> setDifference(const phmap::btree_set<T> &setA, const phmap::btree_set<T> &setB) {
+	phmap::btree_set<T> setResult;
+	for (const auto &elem : setA) {
+		if (setB.find(elem) == setB.end()) {
+			setResult.insert(elem);
+		}
+>>>>>>> ea3437230 (feat: allow multiple zones per coordinate)
+	}
+	return setResult;
+}
+
+ReturnValue Game::onCreatureZoneChange(Creature* creature, const phmap::btree_set<std::shared_ptr<Zone>> &fromZones, const phmap::btree_set<std::shared_ptr<Zone>> &toZones) {
+	if (!creature) {
+		return RETURNVALUE_NOTPOSSIBLE;
+	}
+
+	// fromZones - toZones = zones that creature left
+	auto zonesLeft = setDifference(fromZones, toZones);
+	// toZones - fromZones = zones that creature entered
+	auto zonesEntered = setDifference(toZones, fromZones);
+	// intersection of fromZones and toZones = zones that creature is still in
+	auto zonesStillIn = setDifference(fromZones, zonesLeft);
+
+	for (const auto &zone : zonesStillIn) {
+		// creatureAdded is idempotent, so we can just call it. This is useful for
+		// when a creature is added to a zone since the from is going to be the same
+		// as the to.
+		if (zone) {
+			zone->creatureAdded(creature);
+		}
+	}
+
+	if (zonesLeft.empty() && zonesEntered.empty()) {
+		return RETURNVALUE_NOERROR;
+	}
+
+	for (const auto &zone : zonesLeft) {
+		bool allowed = g_callbacks().checkCallback(EventCallback_t::zoneOnCreatureLeave, &EventCallback::zoneOnCreatureLeave, zone, creature);
+		if (!allowed) {
+			return RETURNVALUE_NOTPOSSIBLE;
+		}
+	}
+	for (const auto &zone : zonesLeft) {
+		zone->creatureRemoved(creature);
+	}
+
+	for (const auto &zone : zonesEntered) {
+		bool allowed = g_callbacks().checkCallback(EventCallback_t::zoneOnCreatureEnter, &EventCallback::zoneOnCreatureEnter, zone, creature);
+		if (!allowed) {
+			return RETURNVALUE_NOTPOSSIBLE;
+		}
+	}
+	for (const auto &zone : zonesEntered) {
+		zone->creatureAdded(creature);
+	}
+	return RETURNVALUE_NOERROR;
+}
+>>>>>>> e5f44434 (feat: allow multiple zones per coordinate)
