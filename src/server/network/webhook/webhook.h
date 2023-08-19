@@ -11,6 +11,7 @@
 #define SRC_SERVER_NETWORK_WEBHOOK_WEBHOOK_H_
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 class WebHook {
 	public:
 #if defined(WIN32)
@@ -20,6 +21,8 @@ class WebHook {
 		static std::string getPayload(std::string title, std::string message, int color);
 };
 =======
+=======
+>>>>>>> ccbca850 (Merge branch 'main' into shared-3)
 #include "lib/thread/thread_pool.hpp"
 
 struct WebhookTask {
@@ -58,6 +61,9 @@ class Webhook {
 };
 
 constexpr auto g_webhook = Webhook::getInstance;
+<<<<<<< HEAD
 >>>>>>> e5583095 (improve: run webhook within the thread pool (#1384))
+=======
+>>>>>>> ccbca850 (Merge branch 'main' into shared-3)
 
 #endif // SRC_SERVER_NETWORK_WEBHOOK_WEBHOOK_H_

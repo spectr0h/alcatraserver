@@ -1043,10 +1043,17 @@ void EventCallback::monsterOnDropLoot(Monster* monster, Container* corpse) const
 
 void EventCallback::monsterPostDropLoot(Monster* monster, Container* corpse) const {
 	if (!getScriptInterface()->reserveScriptEnv()) {
+<<<<<<< HEAD
 		SPDLOG_ERROR("[EventCallback::monsterPostDropLoot - "
 					 "Monster corpse {}] "
 					 "Call stack overflow. Too many lua script calls being nested.",
 					 corpse->getName());
+=======
+		g_logger().error("[EventCallback::monsterPostDropLoot - "
+						 "Monster corpse {}] "
+						 "Call stack overflow. Too many lua script calls being nested.",
+						 corpse->getName());
+>>>>>>> ccbca850 (Merge branch 'main' into shared-3)
 		return;
 	}
 

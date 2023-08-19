@@ -12,6 +12,7 @@
 #include "server/network/webhook/webhook.h"
 #include "config/configmanager.h"
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include "core.hpp"
 
 #ifdef _MSC_VER
@@ -46,6 +47,13 @@ void webhook_init() {
 Webhook::Webhook(ThreadPool &threadPool) :
 	threadPool(threadPool) {
 >>>>>>> e5583095 (improve: run webhook within the thread pool (#1384))
+=======
+#include "game/scheduling/scheduler.h"
+#include "utils/tools.h"
+
+Webhook::Webhook(ThreadPool &threadPool) :
+	threadPool(threadPool) {
+>>>>>>> ccbca850 (Merge branch 'main' into shared-3)
 	if (curl_global_init(CURL_GLOBAL_ALL) != 0) {
 		g_logger().error("Failed to init curl, no webhook messages may be sent");
 		return;
@@ -60,6 +68,7 @@ Webhook::Webhook(ThreadPool &threadPool) :
 		return;
 	}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 	HINTERNET hConnect = InternetConnectA(hSession, "discordapp.com", INTERNET_DEFAULT_HTTPS_PORT, 0, 0, INTERNET_SERVICE_HTTP, 0, 0);
 	if (!hConnect) {
@@ -216,6 +225,38 @@ static int webhook_send_message_(const char* url, const char* payload, std::stri
 =======
 int Webhook::sendRequest(const char* url, const char* payload, std::string* response_body) const {
 >>>>>>> e5583095 (improve: run webhook within the thread pool (#1384))
+=======
+	run();
+}
+
+Webhook &Webhook::getInstance() {
+	return inject<Webhook>();
+}
+
+void Webhook::run() {
+	threadPool.addLoad([this] { sendWebhook(); });
+	g_scheduler().addEvent(g_configManager().getNumber(DISCORD_WEBHOOK_DELAY_MS), [this] { run(); });
+}
+
+void Webhook::sendMessage(const std::string payload, std::string url) {
+	std::scoped_lock lock { taskLock };
+	webhooks.push_back(std::make_shared<WebhookTask>(payload, url));
+}
+
+void Webhook::sendMessage(const std::string title, const std::string message, int color, std::string url) {
+	if (url.empty()) {
+		url = g_configManager().getString(DISCORD_WEBHOOK_URL);
+	}
+
+	if (url.empty() || title.empty() || message.empty()) {
+		return;
+	}
+
+	sendMessage(getPayload(title, message, color), url);
+}
+
+int Webhook::sendRequest(const char* url, const char* payload, std::string* response_body) const {
+>>>>>>> ccbca850 (Merge branch 'main' into shared-3)
 	CURL* curl = curl_easy_init();
 	if (!curl) {
 		g_logger().error("Failed to send webhook message; curl_easy_init failed");
@@ -248,8 +289,11 @@ int Webhook::sendRequest(const char* url, const char* payload, std::string* resp
 	return response_code;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 3398efe8 (Merge branch 'main' into luan/boos-cooldowns)
 =======
+=======
+>>>>>>> ccbca850 (Merge branch 'main' into shared-3)
 
 size_t Webhook::writeCallback(void* contents, size_t size, size_t nmemb, void* userp) {
 	size_t real_size = size * nmemb;
@@ -316,4 +360,7 @@ void Webhook::sendWebhook() {
 
 	g_logger().debug("Webhook successfully sent to {}", task->url);
 }
+<<<<<<< HEAD
 >>>>>>> e5583095 (improve: run webhook within the thread pool (#1384))
+=======
+>>>>>>> ccbca850 (Merge branch 'main' into shared-3)

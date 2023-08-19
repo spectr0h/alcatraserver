@@ -188,15 +188,7 @@ Game::Game() {
 	m_IOWheel = std::make_unique<IOWheel>();
 }
 
-Game::~Game() {
-	for (const auto &it : guilds) {
-		delete it.second;
-	}
-
-	for (const auto &it : CharmList) {
-		delete it;
-	}
-}
+Game::~Game() = default;
 
 void Game::resetMonsters() const {
 	for (const auto &[monsterId, monster] : getMonsters()) {
@@ -513,7 +505,7 @@ void Game::loadMap(const std::string &path, const Position &pos, bool unload) {
 	map.loadMap(path, false, false, false, false, pos, unload);
 }
 
-Cylinder* Game::internalGetCylinder(Player* player, const Position &pos) const {
+Cylinder* Game::internalGetCylinder(Player* player, const Position &pos) {
 	if (pos.x != 0xFFFF) {
 		return map.getTile(pos);
 	}
@@ -528,7 +520,7 @@ Cylinder* Game::internalGetCylinder(Player* player, const Position &pos) const {
 	return player;
 }
 
-Thing* Game::internalGetThing(Player* player, const Position &pos, int32_t index, uint32_t itemId, StackPosType_t type) const {
+Thing* Game::internalGetThing(Player* player, const Position &pos, int32_t index, uint32_t itemId, StackPosType_t type) {
 	if (pos.x != 0xFFFF) {
 		Tile* tile = map.getTile(pos);
 		if (!tile) {
@@ -1896,7 +1888,6 @@ ReturnValue Game::internalMoveItem(Cylinder* fromCylinder, Cylinder* toCylinder,
 		}
 
 		if (Player* player = actor->getPlayer()) {
-
 			// Refresh depot search window if necessary
 			if (player->isDepotSearchOpenOnItem(item->getID()) && ((fromCylinder->getItem() && fromCylinder->getItem()->isInsideDepot(true)) || (toCylinder->getItem() && toCylinder->getItem()->isInsideDepot(true)))) {
 				player->requestDepotSearchItem(item->getID(), item->getTier());
@@ -2661,8 +2652,9 @@ ReturnValue Game::processLootItems(Player* player, Container* lootContainer, Ite
 	uint32_t remainderCount = item->getItemCount();
 	ContainerIterator containerIterator = lootContainer->iterator();
 
+	ReturnValue ret;
 	do {
-		ReturnValue ret = processMoveOrAddItemToLootContainer(item, lootContainer, remainderCount, player);
+		ret = processMoveOrAddItemToLootContainer(item, lootContainer, remainderCount, player);
 		if (ret != RETURNVALUE_CONTAINERNOTENOUGHROOM) {
 			return ret;
 		}
@@ -2671,10 +2663,10 @@ ReturnValue Game::processLootItems(Player* player, Container* lootContainer, Ite
 		if (!nextContainer && !handleFallbackLogic(player, lootContainer, containerIterator, fallbackConsumed)) {
 			break;
 		}
-		fallbackConsumed = (nextContainer == nullptr);
+		fallbackConsumed = fallbackConsumed || (nextContainer == nullptr);
 	} while (remainderCount != 0);
 
-	return RETURNVALUE_NOERROR;
+	return ret;
 }
 
 ReturnValue Game::internalCollectLootItems(Player* player, Item* item, ObjectCategory_t category /* = OBJECTCATEGORY_DEFAULT*/) {
@@ -2693,7 +2685,13 @@ ReturnValue Game::internalCollectLootItems(Player* player, Item* item, ObjectCat
 			} else {
 				money = item->getItemCount();
 			}
-			internalRemoveItem(item, item->getItemCount());
+			auto parent = item->getParent();
+			if (parent) {
+				parent->removeThing(item, item->getItemCount());
+			} else {
+				g_logger().debug("Item has no parent");
+				return RETURNVALUE_NOTPOSSIBLE;
+			}
 			player->setBankBalance(player->getBankBalance() + money);
 			return RETURNVALUE_NOERROR;
 		}
@@ -3775,7 +3773,6 @@ void Game::playerSetShowOffSocket(uint32_t playerId, Outfit_t &outfit, const Pos
 			name << mount->name << " mount";
 		}
 		item->setAttribute(ItemAttribute_t::NAME, name.str());
-
 	} else {
 		item->removeAttribute(ItemAttribute_t::NAME);
 	}
@@ -4780,7 +4777,7 @@ void Game::playerQuickLoot(uint32_t playerId, const Position &pos, uint16_t item
 		return;
 	}
 
-	if (!player->canDoAction()) {
+	if (!autoLoot && !player->canDoAction()) {
 		uint32_t delay = player->getNextActionTime();
 		std::shared_ptr<Task> task = createPlayerTask(delay, std::bind(&Game::playerQuickLoot, this, player->getID(), pos, itemId, stackPos, defaultItem, lootAllCorpses, autoLoot));
 		player->setNextActionTask(task);
@@ -4806,7 +4803,10 @@ void Game::playerQuickLoot(uint32_t playerId, const Position &pos, uint16_t item
 		return;
 	}
 
-	player->setNextActionTask(nullptr);
+	std::lock_guard<std::mutex> lock(player->quickLootMutex);
+	if (!autoLoot) {
+		player->setNextActionTask(nullptr);
+	}
 
 	Item* item = nullptr;
 	if (!defaultItem) {
@@ -5505,7 +5505,6 @@ bool Game::playerSaySpell(Player* player, SpeakClasses type, const std::string &
 		} else {
 			return player->saySpell(type, words, false);
 		}
-
 	} else if (result == TALKACTION_FAILED) {
 		return true;
 	}
@@ -5515,7 +5514,7 @@ bool Game::playerSaySpell(Player* player, SpeakClasses type, const std::string &
 
 void Game::playerWhisper(Player* player, const std::string &text) {
 	SpectatorHashSet spectators;
-	map.getSpectators(spectators, player->getPosition(), false, false, Map::maxClientViewportX, Map::maxClientViewportX, Map::maxClientViewportY, Map::maxClientViewportY);
+	map.getSpectators(spectators, player->getPosition(), false, false, MAP_MAX_CLIENT_VIEW_PORT_X, MAP_MAX_CLIENT_VIEW_PORT_X, MAP_MAX_CLIENT_VIEW_PORT_Y, MAP_MAX_CLIENT_VIEW_PORT_Y);
 
 	// send to client
 	for (Creature* spectator : spectators) {
@@ -5608,11 +5607,11 @@ std::shared_ptr<Task> Game::createPlayerTask(uint32_t delay, std::function<void(
 }
 
 //--
-bool Game::canThrowObjectTo(const Position &fromPos, const Position &toPos, bool checkLineOfSight /*= true*/, int32_t rangex /*= Map::maxClientViewportX*/, int32_t rangey /*= Map::maxClientViewportY*/) const {
+bool Game::canThrowObjectTo(const Position &fromPos, const Position &toPos, bool checkLineOfSight /*= true*/, int32_t rangex /*= MAP_MAX_CLIENT_VIEW_PORT_X*/, int32_t rangey /*= MAP_MAX_CLIENT_VIEW_PORT_Y*/) {
 	return map.canThrowObjectTo(fromPos, toPos, checkLineOfSight, rangex, rangey);
 }
 
-bool Game::isSightClear(const Position &fromPos, const Position &toPos, bool floorCheck) const {
+bool Game::isSightClear(const Position &fromPos, const Position &toPos, bool floorCheck) {
 	return map.isSightClear(fromPos, toPos, floorCheck);
 }
 
@@ -5656,9 +5655,9 @@ bool Game::internalCreatureSay(Creature* creature, SpeakClasses type, const std:
 		// used (hopefully the compiler will optimize away the construction of
 		// the temporary when it's not used).
 		if (type != TALKTYPE_YELL && type != TALKTYPE_MONSTER_YELL) {
-			map.getSpectators(spectators, *pos, false, false, Map::maxClientViewportX, Map::maxClientViewportX, Map::maxClientViewportY, Map::maxClientViewportY);
+			map.getSpectators(spectators, *pos, false, false, MAP_MAX_CLIENT_VIEW_PORT_X, MAP_MAX_CLIENT_VIEW_PORT_X, MAP_MAX_CLIENT_VIEW_PORT_Y, MAP_MAX_CLIENT_VIEW_PORT_Y);
 		} else {
-			map.getSpectators(spectators, *pos, true, false, (Map::maxClientViewportX + 1) * 2, (Map::maxClientViewportX + 1) * 2, (Map::maxClientViewportY + 1) * 2, (Map::maxClientViewportY + 1) * 2);
+			map.getSpectators(spectators, *pos, true, false, (MAP_MAX_CLIENT_VIEW_PORT_X + 1) * 2, (MAP_MAX_CLIENT_VIEW_PORT_X + 1) * 2, (MAP_MAX_CLIENT_VIEW_PORT_Y + 1) * 2, (MAP_MAX_CLIENT_VIEW_PORT_Y + 1) * 2);
 		}
 	} else {
 		spectators = (*spectatorsPtr);
@@ -5959,16 +5958,15 @@ bool Game::combatBlockHit(CombatDamage &damage, Creature* attacker, Creature* ta
 	Player* targetPlayer = target->getPlayer();
 
 	if (damage.primary.type != COMBAT_NONE) {
-
 		// Damage reflection primary
 		if (!damage.extension && attacker) {
 			if (targetPlayer && attacker->getMonster() && damage.primary.type != COMBAT_HEALING) {
 				// Charm rune (target as player)
-				MonsterType* mType = g_monsters().getMonsterType(attacker->getName());
+				const auto &mType = g_monsters().getMonsterType(attacker->getName());
 				if (mType) {
 					charmRune_t activeCharm = g_iobestiary().getCharmFromTarget(targetPlayer, mType);
 					if (activeCharm == CHARM_PARRY) {
-						Charm* charm = g_iobestiary().getBestiaryCharm(activeCharm);
+						const auto &charm = g_iobestiary().getBestiaryCharm(activeCharm);
 						if (charm && charm->type == CHARM_DEFENSIVE && (charm->chance > normal_random(0, 100))) {
 							g_iobestiary().parseCharmCombat(charm, targetPlayer, attacker, (damage.primary.value + damage.secondary.value));
 						}
@@ -6546,7 +6544,7 @@ bool Game::combatChangeHealth(Creature* attacker, Creature* target, CombatDamage
 			// Charm rune (target as player)
 			if (charmRune_t activeCharm = g_iobestiary().getCharmFromTarget(targetPlayer, g_monsters().getMonsterTypeByRaceId(attackerMonster->getRaceId()));
 				activeCharm != CHARM_NONE && activeCharm != CHARM_CLEANSE) {
-				if (Charm* charm = g_iobestiary().getBestiaryCharm(activeCharm);
+				if (const auto &charm = g_iobestiary().getBestiaryCharm(activeCharm);
 					charm->type == CHARM_DEFENSIVE && charm->chance > normal_random(0, 100) && g_iobestiary().parseCharmCombat(charm, targetPlayer, attacker, (damage.primary.value + damage.secondary.value))) {
 					return false; // Dodge charm
 				}
@@ -6922,7 +6920,7 @@ void Game::applyCharmRune(
 	}
 	if (charmRune_t activeCharm = g_iobestiary().getCharmFromTarget(attackerPlayer, g_monsters().getMonsterTypeByRaceId(targetMonster->getRaceId()));
 		activeCharm != CHARM_NONE) {
-		Charm* charm = g_iobestiary().getBestiaryCharm(activeCharm);
+		const auto &charm = g_iobestiary().getBestiaryCharm(activeCharm);
 		int8_t chance = charm->id == CHARM_CRIPPLE ? charm->chance : charm->chance + attackerPlayer->getCharmChanceModifier();
 		g_logger().debug("charm chance: {}, base: {}, bonus: {}", chance, charm->chance, attackerPlayer->getCharmChanceModifier());
 		if (charm->type == CHARM_OFFENSIVE && (chance >= normal_random(0, 100))) {
@@ -6948,7 +6946,7 @@ void Game::applyManaLeech(
 	if (targetMonster) {
 		if (uint16_t playerCharmRaceidVoid = attackerPlayer->parseRacebyCharm(CHARM_VOID, false, 0);
 			playerCharmRaceidVoid != 0 && playerCharmRaceidVoid == targetMonster->getRace()) {
-			if (const Charm* voidc = g_iobestiary().getBestiaryCharm(CHARM_VOID)) {
+			if (const auto &voidc = g_iobestiary().getBestiaryCharm(CHARM_VOID)) {
 				manaSkill += voidc->percent;
 			}
 		}
@@ -6979,7 +6977,7 @@ void Game::applyLifeLeech(
 	if (targetMonster) {
 		if (uint16_t playerCharmRaceidVamp = attackerPlayer->parseRacebyCharm(CHARM_VAMP, false, 0);
 			playerCharmRaceidVamp != 0 && playerCharmRaceidVamp == targetMonster->getRaceId()) {
-			if (const Charm* lifec = g_iobestiary().getBestiaryCharm(CHARM_VAMP)) {
+			if (const auto &lifec = g_iobestiary().getBestiaryCharm(CHARM_VAMP)) {
 				lifeSkill += lifec->percent;
 			}
 		}
@@ -7126,11 +7124,11 @@ bool Game::combatChangeMana(Creature* attacker, Creature* target, CombatDamage &
 
 		if (targetPlayer && attacker && attacker->getMonster()) {
 			// Charm rune (target as player)
-			MonsterType* mType = g_monsters().getMonsterType(attacker->getName());
+			const auto &mType = g_monsters().getMonsterType(attacker->getName());
 			if (mType) {
 				charmRune_t activeCharm = g_iobestiary().getCharmFromTarget(targetPlayer, mType);
 				if (activeCharm != CHARM_NONE && activeCharm != CHARM_CLEANSE) {
-					Charm* charm = g_iobestiary().getBestiaryCharm(activeCharm);
+					const auto &charm = g_iobestiary().getBestiaryCharm(activeCharm);
 					if (charm && charm->type == CHARM_DEFENSIVE && (charm->chance > normal_random(0, 100))) {
 						if (g_iobestiary().parseCharmCombat(charm, targetPlayer, attacker, manaChange)) {
 							sendDoubleSoundEffect(targetPlayer->getPosition(), charm->soundCastEffect, charm->soundImpactEffect, targetPlayer);
@@ -7392,10 +7390,14 @@ void Game::dieSafely(std::string errorMsg /* = "" */) {
 
 void Game::shutdown() {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	WebHook::sendMessage("Server is shutting down", "Shutting down...", WEBHOOK_COLOR_OFFLINE);
 =======
 	g_webhook().sendMessage("Server is shutting down", "Shutting down...", WEBHOOK_COLOR_OFFLINE);
 >>>>>>> e5583095 (improve: run webhook within the thread pool (#1384))
+=======
+	g_webhook().sendMessage("Server is shutting down", "Shutting down...", WEBHOOK_COLOR_OFFLINE);
+>>>>>>> ccbca850 (Merge branch 'main' into shared-3)
 
 <<<<<<< HEAD
 	SPDLOG_INFO("Shutting down...");
@@ -7786,7 +7788,7 @@ void Game::sendGuildMotd(uint32_t playerId) {
 		return;
 	}
 
-	Guild* guild = player->getGuild();
+	const auto &guild = player->getGuild();
 	if (guild) {
 		player->sendChannelMessage("Message of the Day", guild->getMotd(), TALKTYPE_CHANNEL_R1, CHANNEL_GUILD);
 	}
@@ -8982,7 +8984,7 @@ void Game::playerSetMonsterPodium(uint32_t playerId, uint32_t monsterRaceId, con
 		monsterRaceId = static_cast<uint32_t>(podiumMonsterRace->getInteger());
 	}
 
-	const MonsterType* mType = g_monsters().getMonsterTypeByRaceId(monsterRaceId, itemId == ITEM_PODIUM_OF_VIGOUR);
+	const auto &mType = g_monsters().getMonsterTypeByRaceId(static_cast<uint16_t>(monsterRaceId), itemId == ITEM_PODIUM_OF_VIGOUR);
 	if (!mType) {
 		player->sendCancelMessage(RETURNVALUE_CONTACTADMINISTRATOR);
 <<<<<<< HEAD
@@ -9233,7 +9235,7 @@ void Game::removeMonster(Monster* monster) {
 	monsters.erase(monster->getID());
 }
 
-Guild* Game::getGuild(uint32_t id, bool allowOffline /* = flase */) const {
+std::shared_ptr<Guild> Game::getGuild(uint32_t id, bool allowOffline /* = flase */) const {
 	auto it = guilds.find(id);
 	if (it == guilds.end()) {
 		if (allowOffline) {
@@ -9244,7 +9246,7 @@ Guild* Game::getGuild(uint32_t id, bool allowOffline /* = flase */) const {
 	return it->second;
 }
 
-Guild* Game::getGuildByName(const std::string &name, bool allowOffline /* = flase */) const {
+std::shared_ptr<Guild> Game::getGuildByName(const std::string &name, bool allowOffline /* = flase */) const {
 	auto id = IOGuild::getGuildIdByName(name);
 	auto it = guilds.find(id);
 	if (it == guilds.end()) {
@@ -9256,7 +9258,7 @@ Guild* Game::getGuildByName(const std::string &name, bool allowOffline /* = flas
 	return it->second;
 }
 
-void Game::addGuild(Guild* guild) {
+void Game::addGuild(const std::shared_ptr<Guild> &guild) {
 	if (!guild) {
 		return;
 	}
@@ -9832,6 +9834,8 @@ void Game::playerRewardChestCollect(uint32_t playerId, const Position &pos, uint
 		player->canAutoWalk(item->getPosition(), function)) {
 		return;
 	}
+
+	std::lock_guard<std::mutex> lock(player->quickLootMutex);
 
 	ReturnValue returnValue = collectRewardChestItems(player, maxMoveItems);
 	if (returnValue != RETURNVALUE_NOERROR) {

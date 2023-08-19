@@ -244,12 +244,18 @@ Item* Player::getInventoryItem(Slots_t slot) const {
 	return inventory[slot];
 }
 
+bool Player::isSuppress(ConditionType_t conditionType) const {
+	return m_conditionSuppressions[static_cast<size_t>(conditionType)];
+}
+
 void Player::addConditionSuppressions(const std::array<ConditionType_t, ConditionType_t::CONDITION_COUNT> &addConditions) {
-	conditionSuppressions = addConditions;
+	for (const auto &conditionType : addConditions) {
+		m_conditionSuppressions[static_cast<size_t>(conditionType)] = true;
+	}
 }
 
 void Player::removeConditionSuppressions() {
-	conditionSuppressions = {};
+	m_conditionSuppressions.reset();
 }
 
 Item* Player::getWeapon(Slots_t slot, bool ignoreAmmo) const {
@@ -2564,7 +2570,7 @@ void Player::death(Creature* lastHitCreature) {
 		// Charm bless bestiary
 		if (lastHitCreature && lastHitCreature->getMonster()) {
 			if (charmRuneBless != 0) {
-				const MonsterType* mType = g_monsters().getMonsterType(lastHitCreature->getName());
+				const auto &mType = g_monsters().getMonsterType(lastHitCreature->getName());
 				if (mType && mType->info.raceid == charmRuneBless) {
 					deathLossPercent = (deathLossPercent * 90) / 100;
 				}
@@ -4630,7 +4636,8 @@ bool Player::isImmune(ConditionType_t type) const {
 	if (hasFlag(PlayerFlags_t::CannotBeAttacked)) {
 		return true;
 	}
-	return Creature::isImmune(type);
+
+	return m_conditionImmunities[static_cast<size_t>(type)];
 }
 
 bool Player::isAttackable() const {
@@ -5076,7 +5083,7 @@ bool Player::isInWar(const Player* player) const {
 		return false;
 	}
 
-	const Guild* playerGuild = player->getGuild();
+	const auto &playerGuild = player->getGuild();
 	if (!playerGuild) {
 		return false;
 	}
@@ -5457,7 +5464,7 @@ GuildEmblems_t Player::getGuildEmblem(const Player* player) const {
 		return GUILDEMBLEM_NONE;
 	}
 
-	const Guild* playerGuild = player->getGuild();
+	const auto &playerGuild = player->getGuild();
 	if (!playerGuild) {
 		return GUILDEMBLEM_NONE;
 	}
@@ -5995,30 +6002,28 @@ std::forward_list<Condition*> Player::getMuteConditions() const {
 	return muteConditions;
 }
 
-void Player::setGuild(Guild* newGuild) {
-	if (newGuild == this->guild) {
+void Player::setGuild(const std::shared_ptr<Guild> &newGuild) {
+	if (newGuild == guild) {
 		return;
 	}
 
-	Guild* oldGuild = this->guild;
+	if (guild) {
+		guild->removeMember(this);
+		guild = nullptr;
+	}
 
-	this->guildNick.clear();
-	this->guild = nullptr;
-	this->guildRank = nullptr;
+	guildNick.clear();
+	guildRank = nullptr;
 
 	if (newGuild) {
-		GuildRank_ptr rank = newGuild->getRankByLevel(1);
+		const auto &rank = newGuild->getRankByLevel(1);
 		if (!rank) {
 			return;
 		}
 
-		this->guild = newGuild;
-		this->guildRank = rank;
+		guild = newGuild;
+		guildRank = rank;
 		newGuild->addMember(this);
-	}
-
-	if (oldGuild) {
-		oldGuild->removeMember(this);
 	}
 }
 
@@ -6382,7 +6387,7 @@ std::string Player::getBlessingsName() const {
 	return os.str();
 }
 
-bool Player::isCreatureUnlockedOnTaskHunting(const MonsterType* mtype) const {
+bool Player::isCreatureUnlockedOnTaskHunting(const std::shared_ptr<MonsterType> &mtype) const {
 	if (!mtype) {
 		return false;
 	}
@@ -6749,9 +6754,9 @@ bool Player::saySpell(
 		// used (hopefully the compiler will optimize away the construction of
 		// the temporary when it's not used).
 		if (type != TALKTYPE_YELL && type != TALKTYPE_MONSTER_YELL) {
-			g_game().map.getSpectators(spectators, *pos, false, false, Map::maxClientViewportX, Map::maxClientViewportX, Map::maxClientViewportY, Map::maxClientViewportY);
+			g_game().map.getSpectators(spectators, *pos, false, false, MAP_MAX_CLIENT_VIEW_PORT_X, MAP_MAX_CLIENT_VIEW_PORT_X, MAP_MAX_CLIENT_VIEW_PORT_Y, MAP_MAX_CLIENT_VIEW_PORT_Y);
 		} else {
-			g_game().map.getSpectators(spectators, *pos, true, false, (Map::maxClientViewportX + 1) * 2, (Map::maxClientViewportX + 1) * 2, (Map::maxClientViewportY + 1) * 2, (Map::maxClientViewportY + 1) * 2);
+			g_game().map.getSpectators(spectators, *pos, true, false, (MAP_MAX_CLIENT_VIEW_PORT_X + 1) * 2, (MAP_MAX_CLIENT_VIEW_PORT_X + 1) * 2, (MAP_MAX_CLIENT_VIEW_PORT_Y + 1) * 2, (MAP_MAX_CLIENT_VIEW_PORT_Y + 1) * 2);
 		}
 	} else {
 		spectators = (*spectatorsPtr);

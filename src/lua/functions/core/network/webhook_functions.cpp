@@ -20,10 +20,14 @@ int WebhookFunctions::luaWebhookSendMessage(lua_State* L) {
 	std::string url = getString(L, 4);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	WebHook::sendMessage(title, message, color);
 =======
 	g_webhook().sendMessage(title, message, color, url);
 >>>>>>> e5583095 (improve: run webhook within the thread pool (#1384))
+=======
+	g_webhook().sendMessage(title, message, color, url);
+>>>>>>> ccbca850 (Merge branch 'main' into shared-3)
 	lua_pushnil(L);
 
 	return 1;
