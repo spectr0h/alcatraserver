@@ -76,6 +76,8 @@
 >>>>>>> upstream/remove-curl-and-add-rest-cpp
 #include <fmt/chrono.h>
 #include <fmt/core.h>
+#include <fmt/format.h>
+#include <fmt/args.h>
 
 // GMP
 #include <gmp.h>

@@ -18,9 +18,10 @@ enum {
 	EVENT_ID_USER = 1000,
 };
 
-enum LuaDataType {
-	LuaData_Unknown,
+enum class LuaData_t : uint8_t {
+	Unknown,
 
+<<<<<<< HEAD
 	LuaData_Item,
 	LuaData_Container,
 	LuaData_Teleport,
@@ -29,6 +30,44 @@ enum LuaDataType {
 	LuaData_Npc,
 	LuaData_Tile,
 	LuaData_Guild,
+=======
+	Item,
+	Container,
+	Teleport,
+	Player,
+	Monster,
+	MonsterType,
+	Npc,
+	NpcType,
+	Tile,
+	Variant,
+	Position,
+	Spdlog,
+	NetworkMessage,
+	ModalWindow,
+	Guild,
+	Group,
+	Vocation,
+	Town,
+	House,
+	ItemType,
+	Combat,
+	Condition,
+	Charm,
+	Loot,
+	MonsterSpell,
+	Spell,
+	Party,
+	Action,
+	TalkAction,
+	CreatureEvent,
+	MoveEvent,
+	GlobalEvent,
+	Weapon,
+	Imbuement,
+	Mount,
+	ItemClassification,
+>>>>>>> ca553ab5 (feat: add "logger" lua function support for brace formatting)
 };
 
 enum CreatureEventType_t {
