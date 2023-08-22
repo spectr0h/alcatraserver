@@ -42,7 +42,6 @@ enum class LuaData_t : uint8_t {
 	Tile,
 	Variant,
 	Position,
-	Spdlog,
 	NetworkMessage,
 	ModalWindow,
 	Guild,
