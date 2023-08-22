@@ -253,6 +253,7 @@ class PlayerFunctions final : LuaScriptInterface {
 			registerMethod(L, "Player", "getContainerById", PlayerFunctions::luaPlayerGetContainerById);
 			registerMethod(L, "Player", "getContainerIndex", PlayerFunctions::luaPlayerGetContainerIndex);
 
+<<<<<<< HEAD
 			registerMethod(L, "Player", "getInstantSpells", PlayerFunctions::luaPlayerGetInstantSpells);
 			registerMethod(L, "Player", "canCast", PlayerFunctions::luaPlayerCanCast);
 
@@ -387,6 +388,143 @@ class PlayerFunctions final : LuaScriptInterface {
 
 		static int luaPlayerGetIsTraining(lua_State* L);
 		static int luaPlayerSetTraining(lua_State* L);
+=======
+		registerMethod(L, "Player", "getInstantSpells", PlayerFunctions::luaPlayerGetInstantSpells);
+		registerMethod(L, "Player", "canCast", PlayerFunctions::luaPlayerCanCast);
+
+		registerMethod(L, "Player", "hasChaseMode", PlayerFunctions::luaPlayerHasChaseMode);
+		registerMethod(L, "Player", "hasSecureMode", PlayerFunctions::luaPlayerHasSecureMode);
+		registerMethod(L, "Player", "getFightMode", PlayerFunctions::luaPlayerGetFightMode);
+
+		registerMethod(L, "Player", "getBaseXpGain", PlayerFunctions::luaPlayerGetBaseXpGain);
+		registerMethod(L, "Player", "setBaseXpGain", PlayerFunctions::luaPlayerSetBaseXpGain);
+		registerMethod(L, "Player", "getVoucherXpBoost", PlayerFunctions::luaPlayerGetVoucherXpBoost);
+		registerMethod(L, "Player", "setVoucherXpBoost", PlayerFunctions::luaPlayerSetVoucherXpBoost);
+		registerMethod(L, "Player", "getGrindingXpBoost", PlayerFunctions::luaPlayerGetGrindingXpBoost);
+		registerMethod(L, "Player", "setGrindingXpBoost", PlayerFunctions::luaPlayerSetGrindingXpBoost);
+		registerMethod(L, "Player", "getStoreXpBoost", PlayerFunctions::luaPlayerGetStoreXpBoost);
+		registerMethod(L, "Player", "setStoreXpBoost", PlayerFunctions::luaPlayerSetStoreXpBoost);
+		registerMethod(L, "Player", "getStaminaXpBoost", PlayerFunctions::luaPlayerGetStaminaXpBoost);
+		registerMethod(L, "Player", "setStaminaXpBoost", PlayerFunctions::luaPlayerSetStaminaXpBoost);
+		registerMethod(L, "Player", "getExpBoostStamina", PlayerFunctions::luaPlayerGetExpBoostStamina);
+		registerMethod(L, "Player", "setExpBoostStamina", PlayerFunctions::luaPlayerSetExpBoostStamina);
+
+		registerMethod(L, "Player", "getIdleTime", PlayerFunctions::luaPlayerGetIdleTime);
+		registerMethod(L, "Player", "getFreeBackpackSlots", PlayerFunctions::luaPlayerGetFreeBackpackSlots);
+
+		registerMethod(L, "Player", "isOffline", PlayerFunctions::luaPlayerIsOffline);
+
+		registerMethod(L, "Player", "openMarket", PlayerFunctions::luaPlayerOpenMarket);
+
+		registerMethod(L, "Player", "instantSkillWOD", PlayerFunctions::luaPlayerInstantSkillWOD);
+		registerMethod(L, "Player", "upgradeSpellsWOD", PlayerFunctions::luaPlayerUpgradeSpellWOD);
+		registerMethod(L, "Player", "revelationStageWOD", PlayerFunctions::luaPlayerRevelationStageWOD);
+		registerMethod(L, "Player", "reloadData", PlayerFunctions::luaPlayerReloadData);
+		registerMethod(L, "Player", "onThinkWheelOfDestiny", PlayerFunctions::luaPlayerOnThinkWheelOfDestiny);
+		registerMethod(L, "Player", "avatarTimer", PlayerFunctions::luaPlayerAvatarTimer);
+		registerMethod(L, "Player", "getWheelSpellAdditionalArea", PlayerFunctions::luaPlayerGetWheelSpellAdditionalArea);
+		registerMethod(L, "Player", "getWheelSpellAdditionalTarget", PlayerFunctions::luaPlayerGetWheelSpellAdditionalTarget);
+		registerMethod(L, "Player", "getWheelSpellAdditionalDuration", PlayerFunctions::luaPlayerGetWheelSpellAdditionalDuration);
+
+		// Forge Functions
+		registerMethod(L, "Player", "openForge", PlayerFunctions::luaPlayerOpenForge);
+		registerMethod(L, "Player", "closeForge", PlayerFunctions::luaPlayerCloseForge);
+
+		registerMethod(L, "Player", "addForgeDusts", PlayerFunctions::luaPlayerAddForgeDusts);
+		registerMethod(L, "Player", "removeForgeDusts", PlayerFunctions::luaPlayerRemoveForgeDusts);
+		registerMethod(L, "Player", "getForgeDusts", PlayerFunctions::luaPlayerGetForgeDusts);
+		registerMethod(L, "Player", "setForgeDusts", PlayerFunctions::luaPlayerSetForgeDusts);
+
+		registerMethod(L, "Player", "addForgeDustLevel", PlayerFunctions::luaPlayerAddForgeDustLevel);
+		registerMethod(L, "Player", "removeForgeDustLevel", PlayerFunctions::luaPlayerRemoveForgeDustLevel);
+		registerMethod(L, "Player", "getForgeDustLevel", PlayerFunctions::luaPlayerGetForgeDustLevel);
+
+		registerMethod(L, "Player", "getForgeSlivers", PlayerFunctions::luaPlayerGetForgeSlivers);
+		registerMethod(L, "Player", "getForgeCores", PlayerFunctions::luaPlayerGetForgeCores);
+		registerMethod(L, "Player", "isUIExhausted", PlayerFunctions::luaPlayerIsUIExhausted);
+		registerMethod(L, "Player", "updateUIExhausted", PlayerFunctions::luaPlayerUpdateUIExhausted);
+
+		registerMethod(L, "Player", "setFaction", PlayerFunctions::luaPlayerSetFaction);
+		registerMethod(L, "Player", "getFaction", PlayerFunctions::luaPlayerGetFaction);
+
+		// Bosstiary Functions
+		registerMethod(L, "Player", "addBosstiaryKill", PlayerFunctions::luaPlayerAddBosstiaryKill);
+		registerMethod(L, "Player", "setBossPoints", PlayerFunctions::luaPlayerSetBossPoints);
+		registerMethod(L, "Player", "setRemoveBossTime", PlayerFunctions::luaPlayerSetRemoveBossTime);
+		registerMethod(L, "Player", "getSlotBossId", PlayerFunctions::luaPlayerGetSlotBossId);
+		registerMethod(L, "Player", "getBossBonus", PlayerFunctions::luaPlayerGetBossBonus);
+		registerMethod(L, "Player", "sendBosstiaryCooldownTimer", PlayerFunctions::luaPlayerBosstiaryCooldownTimer);
+
+		registerMethod(L, "Player", "sendSingleSoundEffect", PlayerFunctions::luaPlayerSendSingleSoundEffect);
+		registerMethod(L, "Player", "sendDoubleSoundEffect", PlayerFunctions::luaPlayerSendDoubleSoundEffect);
+
+		registerMethod(L, "Player", "getName", PlayerFunctions::luaPlayerGetName);
+
+		registerMethod(L, "Player", "hasGroupFlag", PlayerFunctions::luaPlayerHasGroupFlag);
+		registerMethod(L, "Player", "setGroupFlag", PlayerFunctions::luaPlayerSetGroupFlag);
+		registerMethod(L, "Player", "removeGroupFlag", PlayerFunctions::luaPlayerRemoveGroupFlag);
+
+		registerMethod(L, "Player", "setHazardSystemPoints", PlayerFunctions::luaPlayerAddHazardSystemPoints);
+		registerMethod(L, "Player", "getHazardSystemPoints", PlayerFunctions::luaPlayerGetHazardSystemPoints);
+
+		registerMethod(L, "Player", "setLoyaltyBonus", PlayerFunctions::luaPlayerSetLoyaltyBonus);
+		registerMethod(L, "Player", "getLoyaltyBonus", PlayerFunctions::luaPlayerGetLoyaltyBonus);
+		registerMethod(L, "Player", "getLoyaltyPoints", PlayerFunctions::luaPlayerGetLoyaltyPoints);
+		registerMethod(L, "Player", "getLoyaltyTitle", PlayerFunctions::luaPlayerGetLoyaltyTitle);
+		registerMethod(L, "Player", "setLoyaltyTitle", PlayerFunctions::luaPlayerSetLoyaltyTitle);
+
+		registerMethod(L, "Player", "updateConcoction", PlayerFunctions::luaPlayerUpdateConcoction);
+		registerMethod(L, "Player", "clearSpellCooldowns", PlayerFunctions::luaPlayerClearSpellCooldowns);
+
+		registerMethod(L, "Player", "isVip", PlayerFunctions::luaPlayerIsVip);
+		registerMethod(L, "Player", "getVipDays", PlayerFunctions::luaPlayerGetVipDays);
+		registerMethod(L, "Player", "getVipTime", PlayerFunctions::luaPlayerGetVipTime);
+
+		GroupFunctions::init(L);
+		GuildFunctions::init(L);
+		MountFunctions::init(L);
+		PartyFunctions::init(L);
+		VocationFunctions::init(L);
+	}
+
+	static int luaPlayerCreate(lua_State* L);
+
+	static int luaPlayerUnlockAllCharmRunes(lua_State* L);
+	static int luaPlayerResetCharmsMonsters(lua_State* L);
+	static int luaPlayeraddCharmPoints(lua_State* L);
+	static int luaPlayerIsPlayer(lua_State* L);
+
+	static int luaPlayerGetGuid(lua_State* L);
+	static int luaPlayerGetIp(lua_State* L);
+	static int luaPlayerGetAccountId(lua_State* L);
+	static int luaPlayerGetLastLoginSaved(lua_State* L);
+	static int luaPlayerGetLastLogout(lua_State* L);
+
+	static int luaPlayerGetAccountType(lua_State* L);
+	static int luaPlayerSetAccountType(lua_State* L);
+
+	static int luaPlayerAddBestiaryKill(lua_State* L);
+	static int luaPlayerIsMonsterBestiaryUnlocked(lua_State* L);
+	static int luaPlayercharmExpansion(lua_State* L);
+	static int luaPlayergetCharmMonsterType(lua_State* L);
+
+	static int luaPlayerGetPreyCards(lua_State* L);
+	static int luaPlayerGetPreyLootPercentage(lua_State* L);
+	static int luaPlayerPreyThirdSlot(lua_State* L);
+	static int luaPlayerTaskThirdSlot(lua_State* L);
+	static int luaPlayerRemovePreyStamina(lua_State* L);
+	static int luaPlayerAddPreyCards(lua_State* L);
+	static int luaPlayerGetPreyExperiencePercentage(lua_State* L);
+	static int luaPlayerRemoveTaskHuntingPoints(lua_State* L);
+	static int luaPlayerGetTaskHuntingPoints(lua_State* L);
+	static int luaPlayerAddTaskHuntingPoints(lua_State* L);
+
+	static int luaPlayerGetCapacity(lua_State* L);
+	static int luaPlayerSetCapacity(lua_State* L);
+
+	static int luaPlayerGetIsTraining(lua_State* L);
+	static int luaPlayerSetTraining(lua_State* L);
+>>>>>>> 31a6c1c0 (improve: enhance and fix action to buy premium/vip time (#1423))
 
 		static int luaPlayerGetKills(lua_State* L);
 		static int luaPlayerSetKills(lua_State* L);
@@ -642,6 +780,7 @@ class PlayerFunctions final : LuaScriptInterface {
 		static int luaPlayerIsUIExhausted(lua_State* L);
 		static int luaPlayerUpdateUIExhausted(lua_State* L);
 
+<<<<<<< HEAD
 		static int luaPlayerSetFaction(lua_State* L);
 		static int luaPlayerGetFaction(lua_State* L);
 
@@ -680,6 +819,47 @@ class PlayerFunctions final : LuaScriptInterface {
 		static int luaPlayerGetVipDays(lua_State* L);
 
 		friend class CreatureFunctions;
+=======
+	static int luaPlayerSetFaction(lua_State* L);
+	static int luaPlayerGetFaction(lua_State* L);
+
+	static int luaPlayerAddBosstiaryKill(lua_State* L);
+	static int luaPlayerSetBossPoints(lua_State* L);
+	static int luaPlayerSetRemoveBossTime(lua_State* L);
+	static int luaPlayerGetSlotBossId(lua_State* L);
+	static int luaPlayerGetBossBonus(lua_State* L);
+	static int luaPlayerBosstiaryCooldownTimer(lua_State* L);
+
+	static int luaPlayerSendSingleSoundEffect(lua_State* L);
+	static int luaPlayerSendDoubleSoundEffect(lua_State* L);
+
+	static int luaPlayerGetName(lua_State* L);
+
+	static int luaPlayerHasGroupFlag(lua_State* L);
+	static int luaPlayerSetGroupFlag(lua_State* L);
+	static int luaPlayerRemoveGroupFlag(lua_State* L);
+
+	// Hazard system
+	static int luaPlayerAddHazardSystemPoints(lua_State* L);
+	static int luaPlayerGetHazardSystemPoints(lua_State* L);
+
+	// Loyalty system
+	static int luaPlayerSetLoyaltyBonus(lua_State* L);
+	static int luaPlayerGetLoyaltyBonus(lua_State* L);
+	static int luaPlayerGetLoyaltyPoints(lua_State* L);
+	static int luaPlayerGetLoyaltyTitle(lua_State* L);
+	static int luaPlayerSetLoyaltyTitle(lua_State* L);
+
+	// Concoction system
+	static int luaPlayerUpdateConcoction(lua_State* L);
+	static int luaPlayerClearSpellCooldowns(lua_State* L);
+
+	static int luaPlayerIsVip(lua_State* L);
+	static int luaPlayerGetVipDays(lua_State* L);
+	static int luaPlayerGetVipTime(lua_State* L);
+
+	friend class CreatureFunctions;
+>>>>>>> 31a6c1c0 (improve: enhance and fix action to buy premium/vip time (#1423))
 };
 
 #endif // SRC_LUA_FUNCTIONS_CREATURES_PLAYER_PLAYER_FUNCTIONS_HPP_
