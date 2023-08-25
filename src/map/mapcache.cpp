@@ -42,8 +42,14 @@ void MapCache::parseItemAttr(const BasicItemPtr &BasicItem, Item* item) {
 	if (BasicItem->actionId > 0)
 		item->setAttribute(ItemAttribute_t::ACTIONID, BasicItem->actionId);
 
+<<<<<<< HEAD
 	if (BasicItem->uniqueId > 0)
 		item->setAttribute(ItemAttribute_t::UNIQUEID, BasicItem->uniqueId);
+=======
+	if (BasicItem->uniqueId > 0) {
+		item->addUniqueId(BasicItem->uniqueId);
+	}
+>>>>>>> e99ca3e4 (fix: reload all clear monster types and other adjusts (#1501))
 
 	if (item->getTeleport() && (BasicItem->destX != 0 || BasicItem->destY != 0 || BasicItem->destZ != 0)) {
 		auto dest = Position(BasicItem->destX, BasicItem->destY, BasicItem->destZ);
