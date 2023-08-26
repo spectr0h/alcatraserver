@@ -10,12 +10,7 @@ coreDirectory = "data"
 -- Set log level
 -- It can be trace, debug, info, warning, error, critical, off (default: info).
 -- NOTE: Will only display logs with level higher or equal the one set.
-logLevel = debug
-
--- Set log level
--- It can be trace, debug, info, warning, error, critical, off (default: info).
--- NOTE: Will only display logs with level higher or equal the one set.
-logLevel = debug
+logLevel = "debug"
 
 -- Combat settings
 -- NOTE: valid values for worldType are: "pvp", "no-pvp" and "pvp-enforced"
@@ -46,7 +41,7 @@ cleanProtectionZones = false
 -- NOTE: allowOldProtocol can allow login on 10x protocol. (11.00)
 -- NOTE: maxPlayers set to 0 means no limit
 -- NOTE: MaxPacketsPerSeconds if you change you will be subject to bugs by WPE, keep the default value of 25
-ip = "alcatra.servegame.com"
+ip = "127.0.0.1"
 allowOldProtocol = false
 bindOnlyGlobalAddress = false
 loginProtocolPort = 7171
@@ -119,14 +114,14 @@ forgeAmountMultiplier = 3
 forgeMinSlivers = 3
 forgeMaxSlivers = 7
 forgeInfluencedLimit = 300
-forgeFiendishLimit = 3
+forgeFiendishLimit = 40
 forgeFiendishIntervalType = "hour"
 forgeFiendishIntervalTime = "1"
 
 -- Bestiary & Bosstiary system
 -- NOTE: bestiaryKillMultiplier, multiplier value of monster killed, default 1
 -- NOTE: bosstiaryKillMultiplier, multiplier value of boss killed, default 1
-bestiaryKillMultiplier = 2
+bestiaryKillMultiplier = 3
 bosstiaryKillMultiplier = 1
 bestiaryRateCharmShopPrice  = 1.0
 boostedBossSlot = true
@@ -159,7 +154,7 @@ loyaltyBonusPercentageMultiplier = 1.0
 -- NOTE: set wheelSystemEnabled = false to disable the wheel of destiny
 -- NOTE: only the wheel points are modified, all other data is on the client executable and cannot be modified
 wheelSystemEnabled = true
-wheelPointsPerLevel = 1
+wheelPointsPerLevel = 2
 
 -- Familiar system
 -- NOTE: the time will be divided by 2 to get half the value, the familiar lasts 15 minutes by default and the cooldown of the spell is 30 minutes
@@ -211,19 +206,19 @@ teleportSummons = false
 -- NOTE: true will allow the /reload command to be used
 -- NOTE: Using this script might cause unwanted changes
 -- This script forces a reload in the entire server, this means that everything that is stored in memory might stop to work properly and/or completely, this script should be used in test environments only
-allowReload = false
+allowReload = true
 
 -- Stamina in Trainers
-staminaTrainer = false
+staminaTrainer = true
 staminaTrainerDelay = 5
-staminaTrainerGain = 1
+staminaTrainerGain = 3
 -- Stamina in PZ
 staminaPz = false
 staminaOrangeDelay = 1
 staminaGreenDelay = 5
-staminaPzGain = 1
+staminaPzGain = 3
 -- Max players allowed on a dummy.
-maxAllowedOnADummy = 15
+maxAllowedOnADummy = 20
 
 -- Save interval per time
 -- NOTE: toggleSaveInterval: true = enable the save interval, false = disable the save interval
@@ -232,7 +227,7 @@ maxAllowedOnADummy = 15
 -- NOTE: saveIntervalTime: time based on what was set in "saveIntervalType"
 toggleSaveInterval = true
 saveIntervalType = "hour"
-toggleSaveIntervalCleanMap = true
+toggleSaveIntervalCleanMap = false
 saveIntervalTime = 1
 
 -- Imbuement
@@ -279,7 +274,7 @@ pushWhenAttacking = false
 -- NOTE: If a map with the name already exists in the world folder, the map will not be downloaded even if the toggleDownloadMap is true
 toggleDownloadMap = true
 mapName = "otservbr"
-mapDownloadUrl = "https://github.com/opentibiabr/canary/releases/download/v2.6.1/otservbr.otbm"
+mapDownloadUrl = "https://github.com/opentibiabr/canary/releases/download/v1.5.0/otservbr.otbm"
 mapAuthor = "OpenTibiaBR"
 
 -- Party List limitations
@@ -327,7 +322,7 @@ allowChangeOutfit = true
 freePremium = true
 kickIdlePlayerAfterMinutes = 15
 maxMessageBuffer = 4
-emoteSpells = false
+emoteSpells = true
 allowWalkthrough = true
 coinPacketSize = 25
 coinImagesURL = "http://alcatra.servegame.com/images/store"
@@ -369,7 +364,7 @@ rateUseStages = true
 lowLevelBonusExp = 50
 rateExp = 100
 rateSkill = 50
-rateLoot = 8
+rateLoot = 7
 rateMagic = 25
 rateSpawn = 1
 
@@ -421,15 +416,14 @@ defaultPriority = "high"
 startupDatabaseOptimization = true
 
 -- Status server information
-ownerName = "OpenTibiaBR"
-ownerEmail = "opentibiabr@outlook.com"
+ownerName = "Spectroh"
+ownerEmail = "spectroh@gmail.com"
 url = "http://docs.opentibiabr.com/"
 location = "South America"
 
 -- Sends Discord webhook notifications on startup, raids and shutdown.
--- The URL layout is "api/webhooks/:id/:token"
+-- The URL layout is https://discord.com/api/webhooks/:id/:token
 -- Leave empty if you wish to disable.
--- The discordWebhookLogoURL is the icon (in png) for the image that will be attached to the webhook message (not work for windows)
 discordWebhookURL = ""
 
 -- Vip System (Get more info in: https://github.com/opentibiabr/canary/pull/1063)

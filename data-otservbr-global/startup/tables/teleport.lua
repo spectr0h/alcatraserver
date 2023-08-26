@@ -305,9 +305,9 @@ TeleportUnique = {
 		effect = CONST_ME_TELEPORT
 	},
 	[39002] = {
-		itemId = 7106,
+		itemId = 21741,
 		itemPos = {x = 32628, y = 33001, z = 9},
-		destination = {x = 32624, y = 33001, z = 9},
+		destination = {x = 32624, y = 33001, z = 8},
 		effect = CONST_ME_TELEPORT
 	},
 	[39003] = {
@@ -317,7 +317,7 @@ TeleportUnique = {
 		effect = CONST_ME_TELEPORT
 	},
 	[39004] = {
-		itemId = 7106,
+		itemId = 21741,
 		itemPos = {x = 32654, y = 32985, z = 9},
 		destination = {x = 32651, y = 32983, z = 8},
 		effect = CONST_ME_TELEPORT
@@ -329,7 +329,7 @@ TeleportUnique = {
 		effect = CONST_ME_TELEPORT
 	},
 	[39006] = {
-		itemId = 7106,
+		itemId = 21741,
 		itemPos = {x = 32610, y = 32979, z = 9},
 		destination = {x = 32608, y = 32978, z = 8},
 		effect = CONST_ME_TELEPORT
