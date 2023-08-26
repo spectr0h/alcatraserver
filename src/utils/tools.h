@@ -149,7 +149,11 @@ static inline Cipbia_Elementals_t getCipbiaElement(CombatType_t combatType) {
 	}
 }
 
+<<<<<<< HEAD:src/utils/tools.h
 std::string getOs();
 std::string getCurrentUTCTimeString();
 
 #endif // SRC_UTILS_TOOLS_H_
+=======
+std::string formatNumber(uint64_t number);
+>>>>>>> 753cc6b8 (feat: more flexible house pricing (#1500)):src/utils/tools.hpp

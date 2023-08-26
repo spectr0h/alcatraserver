@@ -18,11 +18,20 @@ class HouseFunctions final : LuaScriptInterface {
 			registerClass(L, "House", "", HouseFunctions::luaHouseCreate);
 			registerMetaMethod(L, "House", "__eq", HouseFunctions::luaUserdataCompare);
 
+<<<<<<< HEAD
 			registerMethod(L, "House", "getId", HouseFunctions::luaHouseGetId);
 			registerMethod(L, "House", "getName", HouseFunctions::luaHouseGetName);
 			registerMethod(L, "House", "getTown", HouseFunctions::luaHouseGetTown);
 			registerMethod(L, "House", "getExitPosition", HouseFunctions::luaHouseGetExitPosition);
 			registerMethod(L, "House", "getRent", HouseFunctions::luaHouseGetRent);
+=======
+		registerMethod(L, "House", "getId", HouseFunctions::luaHouseGetId);
+		registerMethod(L, "House", "getName", HouseFunctions::luaHouseGetName);
+		registerMethod(L, "House", "getTown", HouseFunctions::luaHouseGetTown);
+		registerMethod(L, "House", "getExitPosition", HouseFunctions::luaHouseGetExitPosition);
+		registerMethod(L, "House", "getRent", HouseFunctions::luaHouseGetRent);
+		registerMethod(L, "House", "getPrice", HouseFunctions::luaHouseGetPrice);
+>>>>>>> 753cc6b8 (feat: more flexible house pricing (#1500))
 
 			registerMethod(L, "House", "getOwnerGuid", HouseFunctions::luaHouseGetOwnerGuid);
 			registerMethod(L, "House", "setOwnerGuid", HouseFunctions::luaHouseSetOwnerGuid);
@@ -50,11 +59,20 @@ class HouseFunctions final : LuaScriptInterface {
 	private:
 		static int luaHouseCreate(lua_State* L);
 
+<<<<<<< HEAD
 		static int luaHouseGetId(lua_State* L);
 		static int luaHouseGetName(lua_State* L);
 		static int luaHouseGetTown(lua_State* L);
 		static int luaHouseGetExitPosition(lua_State* L);
 		static int luaHouseGetRent(lua_State* L);
+=======
+	static int luaHouseGetId(lua_State* L);
+	static int luaHouseGetName(lua_State* L);
+	static int luaHouseGetTown(lua_State* L);
+	static int luaHouseGetExitPosition(lua_State* L);
+	static int luaHouseGetRent(lua_State* L);
+	static int luaHouseGetPrice(lua_State* L);
+>>>>>>> 753cc6b8 (feat: more flexible house pricing (#1500))
 
 		static int luaHouseGetOwnerGuid(lua_State* L);
 		static int luaHouseSetOwnerGuid(lua_State* L);
