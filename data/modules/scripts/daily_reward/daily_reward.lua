@@ -432,6 +432,14 @@ function Player.selectDailyReward(self, msg)
 	if self:isPremium() then
 		rewardCount = dailyTable.premiumAccount
 	end
+<<<<<<< HEAD
+=======
+
+	local dailyRewardMessage = false
+
+	-- Items as reward
+	if dailyTable.type == DAILY_REWARD_TYPE_ITEM then
+>>>>>>> 2134cfb0 (improve: correct functioning of the daily reward (#1491))
 
 	local dailyRewardMessage = false
 
@@ -500,12 +508,17 @@ function Player.selectDailyReward(self, msg)
 
 		dailyRewardMessage = "Picked items: " .. description
 
+<<<<<<< HEAD
 		-- elseif dailyTable.type == DAILY_REWARD_TYPE_STORAGE then
+=======
+	-- elseif dailyTable.type == DAILY_REWARD_TYPE_STORAGE then
+>>>>>>> 2134cfb0 (improve: correct functioning of the daily reward (#1491))
 		-- local description = ""
 		-- for i = 1, #reward.things do
 		-- for j = 1, #reward.things[i].storages do
 		-- self:setStorageValue(reward.things[i].storages[j].storageId, reward.things[i].storages[j].value)
 		-- end
+<<<<<<< HEAD
 		-- if i ~= #reward.things then
 		-- description = description .. reward.things[i].name .. ", "
 		-- else
@@ -514,10 +527,19 @@ function Player.selectDailyReward(self, msg)
 		-- end
 		-- dailyRewardMessage = "Picked reward: " .. description)
 		-- end
+=======
+		-- dailyRewardMessage = "Picked reward: " .. description)
+	-- end
+
+>>>>>>> 2134cfb0 (improve: correct functioning of the daily reward (#1491))
 	elseif dailyTable.type == DAILY_REWARD_TYPE_XP_BOOST then
 		self:setExpBoostStamina(self:getExpBoostStamina() + (rewardCount * 60))
 		self:setStoreXpBoost(50)
 		dailyRewardMessage = "Picked reward: XP Bonus for " .. rewardCount .. " minutes."
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2134cfb0 (improve: correct functioning of the daily reward (#1491))
 	elseif dailyTable.type == DAILY_REWARD_TYPE_PREY_REROLL then
 		self:addPreyCards(rewardCount)
 		dailyRewardMessage = "Picked reward: " .. rewardCount .. "x Prey bonus reroll(s)."
