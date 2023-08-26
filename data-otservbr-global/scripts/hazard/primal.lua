@@ -1,6 +1,10 @@
 local hazard = Hazard.new({
 	name = "hazard.gnomprona-gardens",
+<<<<<<< HEAD
 	from = Position(33502, 32740, 13),
+=======
+	from = Position(33502, 32740,13),
+>>>>>>> efab2a04 (feat: primal menace mechanics (#1415))
 	to = Position(33796, 32996, 15),
 	maxLevel = 12,
 	storageMax = Storage.Quest.U12_90.PrimalOrdeal.Hazard.Max,
