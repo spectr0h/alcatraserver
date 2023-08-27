@@ -231,10 +231,14 @@ function playerLogin.onLogin(player)
 				vipBonusExp = (vipBonusExp > 100 and 100) or vipBonusExp
 				baseRate = baseRate * (1 + (vipBonusExp / 100))
 <<<<<<< HEAD
+<<<<<<< HEAD
 				player:sendTextMessage(MESSAGE_BOOSTED_CREATURE, "Normal base xp is: " .. baseRate .. "%, because you are VIP, bonus of " .. vipBonusExp .. "%")
 =======
 				player:sendTextMessage(MESSAGE_BOOSTED_CREATURE, "Normal base xp is: " .. baseRate .. "%, because you are VIP, bonus of " ..vipBonusExp .."%")
 >>>>>>> 104aec19 (fix: show vip xp bonus on exp rate at skills (#1496))
+=======
+				player:sendTextMessage(MESSAGE_BOOSTED_CREATURE, "Normal base xp is: " .. baseRate .. "%, because you are VIP, bonus of " .. vipBonusExp .. "%")
+>>>>>>> 2de29b59 (improve: lua format from EmmyLuaCodeStyle (#1513))
 			end
 		end
 		player:setBaseXpGain(baseRate)

@@ -29,10 +29,14 @@ Please do not edit any of the next constants:
 
 --[[ Overall ]]
 --
+--[[ Overall ]]
+--
 local DAILY_REWARD_COUNT = 7
 local REWARD_FROM_SHRINE = 0
 local REWARD_FROM_PANEL = 1
 
+--[[ Bonuses ]]
+--
 --[[ Bonuses ]]
 --
 local DAILY_REWARD_NONE = 1
@@ -43,6 +47,8 @@ local DAILY_REWARD_DOUBLE_HP_REGENERATION = 5
 local DAILY_REWARD_DOUBLE_MP_REGENERATION = 6
 local DAILY_REWARD_SOUL_REGENERATION = 7
 
+--[[ Reward Types ]]
+--
 --[[ Reward Types ]]
 --
 
@@ -62,16 +68,26 @@ local DAILY_REWARD_SYSTEM_TYPE_XP_BOOST = 3
 
 --[[ Account Status ]]
 --
+--[[ Account Status ]]
+--
 local DAILY_REWARD_STATUS_FREE = 0
 local DAILY_REWARD_STATUS_PREMIUM = 1
 
 local DailyRewardItems = {
+<<<<<<< HEAD
 <<<<<<< HEAD
 	[0] = {266, 268}, -- God/no vocation character
 	[VOCATION.BASE_ID.PALADIN] = {35282, 35283},
 	[VOCATION.BASE_ID.DRUID] = {35283},
 	[VOCATION.BASE_ID.SORCERER] = {35284},
 	[VOCATION.BASE_ID.KNIGHT] = {35279, 35280, 35281},
+=======
+	[0] = { 266, 268 }, -- God/no vocation character
+	[VOCATION.BASE_ID.PALADIN] = { 266, 236, 268, 237, 7642, 23374, 3203, 3161, 3178, 3153, 3197, 3149, 3164, 3200, 3192, 3188, 3190, 3189, 3191, 3158, 3152, 3180, 3173, 3176, 3195, 3175, 3155, 3202 },
+	[VOCATION.BASE_ID.DRUID] = { 266, 268, 237, 238, 23373, 3203, 3161, 3178, 3153, 3197, 3149, 3164, 3200, 3192, 3188, 3190, 3189, 3156, 3191, 3158, 3152, 3180, 3173, 3176, 3195, 3175, 3155, 3202 },
+	[VOCATION.BASE_ID.SORCERER] = { 266, 268, 237, 238, 23373, 3203, 3161, 3178, 3153, 3197, 3149, 3164, 3200, 3192, 3188, 3190, 3189, 3191, 3158, 3152, 3180, 3173, 3176, 3195, 3175, 3155, 3202 },
+	[VOCATION.BASE_ID.KNIGHT] = { 266, 236, 239, 7643, 23375, 268, 3203, 3161, 3178, 3153, 3197, 3149, 3164, 3200, 3192, 3188, 3190, 3189, 3191, 3158, 3152, 3180, 3173, 3176, 3195, 3175, 3155, 3202 },
+>>>>>>> 03f065d6 (improve: lua format from EmmyLuaCodeStyle (#1513))
 =======
 	[0] = { 266, 268 }, -- God/no vocation character
 	[VOCATION.BASE_ID.PALADIN] = { 266, 236, 268, 237, 7642, 23374, 3203, 3161, 3178, 3153, 3197, 3149, 3164, 3200, 3192, 3188, 3190, 3189, 3191, 3158, 3152, 3180, 3173, 3176, 3195, 3175, 3155, 3202 },
@@ -102,6 +118,13 @@ DailyReward = {
 
 	strikeBonuses = {
 		-- day
+		[1] = { text = "No bonus for first day" },
+		[2] = { text = "Allow Hit Point Regeneration" },
+		[3] = { text = "Allow Mana Regeneration" },
+		[4] = { text = "Stamina Regeneration" },
+		[5] = { text = "Double Hit Point Regeneration" },
+		[6] = { text = "Double Mana Regeneration" },
+		[7] = { text = "Soul Points Regeneration" }
 		[1] = { text = "No bonus for first day" },
 		[2] = { text = "Allow Hit Point Regeneration" },
 		[3] = { text = "Allow Mana Regeneration" },
@@ -150,7 +173,11 @@ DailyReward = {
 			type = DAILY_REWARD_TYPE_ITEM,
 			systemType = DAILY_REWARD_SYSTEM_TYPE_ONE,
 <<<<<<< HEAD
+<<<<<<< HEAD
 			items = {35279, 35280, 35281, 35282, 35283, 35284},
+=======
+			items = { 28540, 28541, 28542, 28543, 28544, 28545 },
+>>>>>>> 03f065d6 (improve: lua format from EmmyLuaCodeStyle (#1513))
 =======
 			items = { 28540, 28541, 28542, 28543, 28544, 28545 },
 >>>>>>> 03f065d6 (improve: lua format from EmmyLuaCodeStyle (#1513))
@@ -325,6 +352,7 @@ DailyReward.init = function(playerId)
 		if player:getStorageValue(DailyReward.storages.notifyReset) ~= GetDailyRewardLastServerSave() then
 			player:setStorageValue(DailyReward.storages.notifyReset, GetDailyRewardLastServerSave())
 			timeMath = math.ceil(timeMath / (DailyReward.serverTimeThreshold))
+			timeMath = math.ceil(timeMath / (DailyReward.serverTimeThreshold))
 			if player:getJokerTokens() >= timeMath then
 				player:setJokerTokens(player:getJokerTokens() - timeMath)
 				player:sendTextMessage(MESSAGE_LOGIN, "You lost " .. timeMath .. " joker tokens to prevent loosing your streak.")
@@ -367,6 +395,7 @@ function Player.sendOpenRewardWall(self, shrine)
 	local msg = NetworkMessage()
 	msg:addByte(ServerPackets.OpenRewardWall) -- initial packet
 	msg:addByte(shrine) -- isPlayer taking bonus from reward shrine (1) - taking it from a instant bonus reward (0)
+	if DailyReward.testMode or not (DailyReward.isRewardTaken(self:getId())) then
 	if DailyReward.testMode or not (DailyReward.isRewardTaken(self:getId())) then
 		msg:addU32(0)
 	else
@@ -461,6 +490,7 @@ function Player.selectDailyReward(self, msg)
 			orderedCounter = orderedCounter + count;
 			for index, val in ipairs(possibleItems) do
 				if val == itemId then
+					items[i] = { itemId = itemId, count = count }
 					items[i] = { itemId = itemId, count = count }
 					totalCounter = totalCounter + count;
 					break;
@@ -633,6 +663,10 @@ function Player.readDailyReward(self, msg, currentDay, state)
 		if type == DAILY_REWARD_TYPE_STORAGE then
 			-- msg:addByte(#rewards.things)
 			-- for i = 1, #rewards.things do
+			-- msg:addByte(DAILY_REWARD_SYSTEM_TYPE_OTHER) -- type
+			-- msg:addU16(rewards.things[i].id * 100)
+			-- msg:addString(rewards.things[i].name)
+			-- msg:addByte(rewards.things[i].quantity)
 			-- msg:addByte(DAILY_REWARD_SYSTEM_TYPE_OTHER) -- type
 			-- msg:addU16(rewards.things[i].id * 100)
 			-- msg:addString(rewards.things[i].name)

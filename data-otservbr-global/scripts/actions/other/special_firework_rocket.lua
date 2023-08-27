@@ -55,6 +55,9 @@ local fireworks = {
 	[37454] = {
 		area = {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2de29b59 (improve: lua format from EmmyLuaCodeStyle (#1513))
 			{ 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0 },
 			{ 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0 },
 			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
@@ -64,6 +67,7 @@ local fireworks = {
 			{ 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 }
+<<<<<<< HEAD
 =======
 			{0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0},
 			{0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0},
@@ -75,6 +79,8 @@ local fireworks = {
 			{0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0}
 >>>>>>> a68de0d0 (feat: fireworks rocket (#1498))
+=======
+>>>>>>> 2de29b59 (improve: lua format from EmmyLuaCodeStyle (#1513))
 		},
 		effect = CONST_ME_HEARTS,
 		type = CONST_FIREWORK_TYPE_INSTANT,
@@ -117,6 +123,7 @@ local fireworks = {
 local function cleanMatrix(matrix)
 	for i = 1, #matrix do
 <<<<<<< HEAD
+<<<<<<< HEAD
 		for j = 1, #matrix[i] do
 			if matrix[i][j] ~= 0 then
 				matrix[i][j] = 1
@@ -129,6 +136,13 @@ local function cleanMatrix(matrix)
 				end
 			end
 >>>>>>> a68de0d0 (feat: fireworks rocket (#1498))
+=======
+		for j = 1, #matrix[i] do
+			if matrix[i][j] ~= 0 then
+				matrix[i][j] = 1
+			end
+		end
+>>>>>>> 2de29b59 (improve: lua format from EmmyLuaCodeStyle (#1513))
 	end
 	return matrix
 end
@@ -137,11 +151,15 @@ local function drawMatrix(matrix, x, y, size, value)
 	local halfSize = math.floor(size / 2)
 	for i = y - halfSize, y + halfSize do
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2de29b59 (improve: lua format from EmmyLuaCodeStyle (#1513))
 		for j = x - halfSize, x + halfSize do
 			if matrix[i][j] ~= 0 then
 				if matrix[i][j] == 1 or matrix[i][j] == -1 then
 					if i >= 1 and i <= #matrix and j >= 1 and j <= #matrix[i] then
 						matrix[i][j] = value == -1 and math.random(maxCooldown) or value
+<<<<<<< HEAD
 					end
 				end
 			end
@@ -157,6 +175,12 @@ local function drawMatrix(matrix, x, y, size, value)
 				end
 			end
 >>>>>>> a68de0d0 (feat: fireworks rocket (#1498))
+=======
+					end
+				end
+			end
+		end
+>>>>>>> 2de29b59 (improve: lua format from EmmyLuaCodeStyle (#1513))
 	end
 end
 
@@ -175,10 +199,14 @@ function fireworksRocket.onUse(player, item, fromPosition, target, toPosition, i
 		item:remove()
 		local matrix = cleanMatrix(firework.area)
 <<<<<<< HEAD
+<<<<<<< HEAD
 		local centerArea = { #matrix / 2, #matrix[1] / 2 }
 =======
 		local centerArea = {#matrix/2, #matrix[1]/2}
 >>>>>>> a68de0d0 (feat: fireworks rocket (#1498))
+=======
+		local centerArea = { #matrix / 2, #matrix[1] / 2 }
+>>>>>>> 2de29b59 (improve: lua format from EmmyLuaCodeStyle (#1513))
 		matrix[math.ceil(centerArea[1])][math.ceil(centerArea[2])] = -1
 		local cdMatrix = 1
 		for step = 1, centerArea[1] + 1 do
@@ -195,6 +223,7 @@ function fireworksRocket.onUse(player, item, fromPosition, target, toPosition, i
 					addEvent(function(effect, position)
 						position:sendMagicEffect(effect)
 <<<<<<< HEAD
+<<<<<<< HEAD
 					end, x * 100, firework.effect, Position(fromPosition.x + iX - centerArea[2], fromPosition.y + iY - centerArea[1], fromPosition.z))
 				end
 			end
@@ -207,6 +236,13 @@ function fireworksRocket.onUse(player, item, fromPosition, target, toPosition, i
 		end
 	end, 10*1000)
 >>>>>>> a68de0d0 (feat: fireworks rocket (#1498))
+=======
+					end, x * 100, firework.effect, Position(fromPosition.x + iX - centerArea[2], fromPosition.y + iY - centerArea[1], fromPosition.z))
+				end
+			end
+		end
+	end, 10 * 1000)
+>>>>>>> 2de29b59 (improve: lua format from EmmyLuaCodeStyle (#1513))
 	if firework.disassemble then
 		item:transform(CONST_FIREWORK_ITEMID_DISASSEMBLE)
 		item:setCustomAttribute("id", itemID)
