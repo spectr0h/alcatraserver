@@ -7,6 +7,7 @@ experienceStages = {
 		maxlevel = 60,
 		multiplier = 400
 	}, {
+<<<<<<< HEAD
 		minlevel = 61,
 		maxlevel = 100,
 		multiplier = 350
@@ -66,6 +67,23 @@ experienceStages = {
 		minlevel = 1201,
 		multiplier = 2
 	}
+=======
+	minlevel = 9,
+	maxlevel = 20,
+	multiplier = 6
+}, {
+	minlevel = 21,
+	maxlevel = 50,
+	multiplier = 5
+}, {
+	minlevel = 51,
+	maxlevel = 100,
+	multiplier = 4
+}, {
+	minlevel = 101,
+	multiplier = 2
+}
+>>>>>>> 03f065d6 (improve: lua format from EmmyLuaCodeStyle (#1513))
 }
 
 skillsStages = {
@@ -74,6 +92,7 @@ skillsStages = {
 		maxlevel = 60,
 		multiplier = 40 -- 40
 	}, {
+<<<<<<< HEAD
 		minlevel = 61,
 		maxlevel = 80,
 		multiplier = 30 --30
@@ -93,6 +112,23 @@ skillsStages = {
 		minlevel = 136,
 		multiplier = 2 -- 2
 	}
+=======
+	minlevel = 61,
+	maxlevel = 80,
+	multiplier = 10
+}, {
+	minlevel = 81,
+	maxlevel = 110,
+	multiplier = 6
+}, {
+	minlevel = 111,
+	maxlevel = 125,
+	multiplier = 4
+}, {
+	minlevel = 126,
+	multiplier = 2
+}
+>>>>>>> 03f065d6 (improve: lua format from EmmyLuaCodeStyle (#1513))
 }
 
 magicLevelStages = {
@@ -101,6 +137,7 @@ magicLevelStages = {
 		maxlevel = 60,
 		multiplier = 50 -- 50
 	}, {
+<<<<<<< HEAD
 		minlevel = 61,
 		maxlevel = 80,
 		multiplier = 40 -- 40
@@ -120,4 +157,25 @@ magicLevelStages = {
 		minlevel = 126,
 		multiplier = 5 -- 5
 	}
+=======
+	minlevel = 61,
+	maxlevel = 80,
+	multiplier = 7
+}, {
+	minlevel = 81,
+	maxlevel = 100,
+	multiplier = 5
+}, {
+	minlevel = 101,
+	maxlevel = 110,
+	multiplier = 4
+}, {
+	minlevel = 111,
+	maxlevel = 125,
+	multiplier = 3
+}, {
+	minlevel = 126,
+	multiplier = 2
+}
+>>>>>>> 03f065d6 (improve: lua format from EmmyLuaCodeStyle (#1513))
 }
