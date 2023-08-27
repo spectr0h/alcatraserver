@@ -59,6 +59,7 @@ local function creatureSayCallback(npc, creature, type, message)
 	end
 end
 --Travel
+<<<<<<< HEAD
 local travelNode = keywordHandler:addKeyword({'vengoth'}, StdModule.say, {npcHandler = npcHandler, text = "So you are saying you're looking for someone to take you to Vengoth?"}, function(player) return player:getStorageValue(BloodBrothers.VengothAccess) <= 1 end)
 	travelNode:addChildKeyword({'no'}, StdModule.say, {npcHandler = npcHandler, reset = true, text = 'Oh well.'})
 	local travelNodeYes = travelNode:addChildKeyword({'yes'}, StdModule.say, {npcHandler = npcHandler, text = "I could do that, it's not far from here. I don't run a charity organisation, though. Tell you what. Give me 100 gold pieces, and me and my boat are yours for the trip. Okay?"})
@@ -67,9 +68,19 @@ local travelNode = keywordHandler:addKeyword({'vengoth'}, StdModule.say, {npcHan
 travelNode = keywordHandler:addKeyword({"transportation"}, StdModule.say, {npcHandler = npcHandler, text = "Want me to bring you to Vengoth again for 100 gold?"}, function(player) return player:getStorageValue(BloodBrothers.VengothAccess) <= 1 end)
 	travelNode:addChildKeyword({'yes'}, StdModule.travel, {npcHandler = npcHandler, text = "Okay. Enjoy.", premium = false, cost = 100, destination = Position(32858, 31549, 7)})
 	travelNode:addChildKeyword({'no'}, StdModule.say, {npcHandler = npcHandler, reset = true, text = 'Oh well.'})
+=======
+local travelNode = keywordHandler:addKeyword({ 'vengoth' }, StdModule.say, { npcHandler = npcHandler, text = "So you are saying you're looking for someone to take you to Vengoth?" }, function(player) return player:getStorageValue(BloodBrothers.VengothAccess) == 1 end)
+travelNode:addChildKeyword({ 'no' }, StdModule.say, { npcHandler = npcHandler, reset = true, text = 'Oh well.' })
+local travelNodeYes = travelNode:addChildKeyword({ 'yes' }, StdModule.say, { npcHandler = npcHandler, text = "I could do that, it's not far from here. I don't run a charity organisation, though. Tell you what. Give me 100 gold pieces, and me and my boat are yours for the trip. Okay?" })
+travelNodeYes:addChildKeyword({ 'yes' }, StdModule.travel, { npcHandler = npcHandler, text = "Okay. Enjoy.", premium = false, cost = 100, destination = Position(32858, 31549, 7) })
+travelNodeYes:addChildKeyword({ 'no' }, StdModule.say, { npcHandler = npcHandler, reset = true, text = 'Oh well.' })
+travelNode = keywordHandler:addKeyword({ "transportation" }, StdModule.say, { npcHandler = npcHandler, text = "Want me to bring you to Vengoth again for 100 gold?" }, function(player) return player:getStorageValue(BloodBrothers.VengothAccess) == 1 end)
+travelNode:addChildKeyword({ 'yes' }, StdModule.travel, { npcHandler = npcHandler, text = "Okay. Enjoy.", premium = false, cost = 100, destination = Position(32858, 31549, 7) })
+travelNode:addChildKeyword({ 'no' }, StdModule.say, { npcHandler = npcHandler, reset = true, text = 'Oh well.' })
+>>>>>>> 03f065d6 (improve: lua format from EmmyLuaCodeStyle (#1513))
 --Basic
-keywordHandler:addKeyword({"busy"}, StdModule.say, {npcHandler = npcHandler, text = "I have a {job}, you know?"})
-keywordHandler:addKeyword({"job"}, StdModule.say, {npcHandler = npcHandler, text = "Well, I'm kind of a delivery man I guess. I take on small {transportation} jobs with my boat."})
+keywordHandler:addKeyword({ "busy" }, StdModule.say, { npcHandler = npcHandler, text = "I have a {job}, you know?" })
+keywordHandler:addKeyword({ "job" }, StdModule.say, { npcHandler = npcHandler, text = "Well, I'm kind of a delivery man I guess. I take on small {transportation} jobs with my boat." })
 
 
 npcHandler:setMessage(MESSAGE_GREET, "What do you want, |PLAYERNAME|? I'm a {busy} man.")
