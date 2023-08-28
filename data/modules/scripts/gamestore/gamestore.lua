@@ -1357,7 +1357,7 @@ GameStore.Categories = {
 		 {
             name = "sanguine galoshes",
             price = 5000,
-            itemtype = 43885,
+            itemtype = 43887,
             description = "<i>(Arm: 3, magic level +2, speed +10, healing magic level +1, protection protection physical +2%, fire +8%).</i>\n\n{info} It can only be wielded properly by druids of level 500 or higher. \n{info}It weighs 17.00 oz. \n{info}Imbuement Slots: 1.",
             type = GameStore.OfferTypes.OFFER_TYPE_CHARGES,
             moveable = true,
@@ -6719,15 +6719,6 @@ GameStore.Categories = {
             count = 5,
             description = "<i>Use Prey Wildcards to reroll the bonus of an active prey, to lock your active prey or to select a prey of your choice.</i>\n\n{character}\n{info} added directly to Prey dialog\n{info} maximum amount that can be owned by character: 50",
             type = GameStore.OfferTypes.OFFER_TYPE_PREYBONUS
-         },
-         {
-            icons = { "Instant_Reward_Access.png" },
-            name = "Instant Reward Access",
-            price = 30,
-            id = GameStore.SubActions.INSTANT_REWARD,
-            count = 1,
-            description = "<i>No matter where you are in Tibia, claim your daily reward on the spot!</i>\n\n{character}\n{info} added to your reward wall\n{info} maximum amount that can be owned by character: 90",
-            type = GameStore.OfferTypes.OFFER_TYPE_INSTANT_REWARD_ACCESS
          },
          {
             icons = { "Charm_Expansion_Offer.png" },
